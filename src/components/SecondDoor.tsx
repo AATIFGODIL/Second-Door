@@ -253,8 +253,7 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
         </p>
         <p>
           It is slower than walking into a rental shop. You need an appointment, proof of address,
-          and a conversation about repayments. That conversation is the part that stops people
-          signing something they cannot pay.
+          and a conversation about repayments.
         </p>
       </Explain>
     </Card>
