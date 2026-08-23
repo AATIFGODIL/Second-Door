@@ -19,10 +19,26 @@ function scrollToTool() {
   target.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' })
 }
 
+function getInitialTheme(): 'light' | 'dark' {
+  const saved = localStorage.getItem('sd_theme')
+  if (saved === 'light' || saved === 'dark') return saved
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
 export default function App() {
   const route = useRoute()
   const [offer, setOffer] = useState<ExtractedOffer>(BLANK_OFFER)
   const [demo, setDemo] = useState(false)
+  const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('sd_theme', theme)
+  }, [theme])
+
+  function toggleTheme() {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'))
+  }
 
   const result = useMemo(() => assess(offer), [offer])
 
@@ -60,28 +76,64 @@ export default function App() {
 
       <header className="masthead">
         <div className="masthead-inner">
-          <span className="wordmark">Second Door</span>
+          <div className="brand">
+            <img src="/favicon.svg" alt="Second Door Logo" className="brand-logo" width="32" height="32" />
+            <span className="wordmark">Second Door</span>
+          </div>
           <div className="scroll-progress" aria-hidden="true" />
-          {route === '/offer' ? (
+          <div className="masthead-actions">
+            {route === '/offer' ? (
+              <button
+                type="button"
+                className="button masthead-cta"
+                data-variant="quiet"
+                onClick={restart}
+              >
+                Start again
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="button masthead-cta"
+                data-variant="primary"
+                data-size="compact"
+                onClick={scrollToTool}
+              >
+                Try it now
+              </button>
+            )}
             <button
               type="button"
-              className="button masthead-cta"
-              data-variant="quiet"
-              onClick={restart}
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              Start again
+              {theme === 'dark' ? (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                  <span>Light</span>
+                </>
+              ) : (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                  <span>Dark</span>
+                </>
+              )}
             </button>
-          ) : (
-            <button
-              type="button"
-              className="button masthead-cta"
-              data-variant="primary"
-              data-size="compact"
-              onClick={scrollToTool}
-            >
-              Try it now
-            </button>
-          )}
+          </div>
         </div>
       </header>
 
@@ -91,7 +143,7 @@ export default function App() {
             <>
               <section className="hero">
                 <h1 className="hero-title">
-                  It says <em>$20 a week</em>. It does not say what that adds up to.
+                  Don't understand the loan? <em>Second Door</em> tells you what you'll actually pay in plain language.
                 </h1>
                 <p className="hero-sub">
                   Show us a rent-to-own or lease offer. We work out what it really costs, and what

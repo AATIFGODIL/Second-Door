@@ -88,12 +88,12 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
   return (
     <Card className="second-door">
       <header className="sd-head">
-        <h2 className="sd-title">The second door: the No Interest Loan Scheme</h2>
+        <h2 className="sd-title">The Second Door: No Interest Loan Scheme (NILS)</h2>
         <p className="sd-intro">
-          A government funded scheme, run by community organisations, that lends for essentials at
-          0% with no fees or charges. Five questions to see whether you are likely to qualify. They
-          match the criteria the scheme publishes, and they are answered on your device and sent
-          nowhere.
+          The No Interest Loan Scheme (NILS) is a government-backed, community-run program offering 0%
+          interest loans with no fees for essential household items and services. Answer these 5 quick
+          questions to check whether you meet official NILS loan eligibility criteria. All answers are
+          evaluated directly on your device and sent nowhere.
         </p>
       </header>
 
@@ -243,7 +243,7 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
         </p>
       </div>
 
-      <Explain term="a no interest loan">
+      <Explain term="a No Interest Loan Scheme (NILS) loan">
         <p>
           You borrow up to the ceiling for the category and pay back exactly that. No interest, no
           fees, no charges, ever.

@@ -215,16 +215,13 @@ export function Landing({ onStart }: { onStart: () => void }) {
             <li>The shop window says $20 a week and she can do $20 a week.</li>
           </ul>
         </div>
-        <p className="section-note">
+        <p className="section-highlight">
           Nobody hides the total from Sarah. It is in the contract. It is just never the number on
           the sign, and working it out needs a calculator, the term length, and knowing to look.
           Second Door does that in the thirty seconds before she signs.
         </p>
         <ul className="facts">
-          <li>
-            <strong>No jargon without a translation.</strong> Every financial term on the results
-            screen has a plain-language explanation attached to it.
-          </li>
+
           <li>
             <strong>The total comes first.</strong> The biggest thing on the screen is what you
             will actually pay, not a rate.
@@ -276,29 +273,23 @@ export function Landing({ onStart }: { onStart: () => void }) {
 
       <section className="prose-section reveal-on-scroll" aria-labelledby="maths-title">
         <h2 className="section-title" id="maths-title">
-          The model reads. It does not calculate.
+          Tested math, not AI guesses
         </h2>
         <p className="section-lead">
-          Every figure you see comes from tested code, not from a language model.
+          AI reads the contract image, but all figures come from exact code.
         </p>
         <Card className="formula-card">
           <code className="formula">PV = PMT × (1 − (1 + i)⁻ⁿ) / i</code>
           <p className="formula-note">
-            Solved for i by bisection, then compounded to an annual figure.
+            Standard present-value formula used to calculate exact annual interest rates.
           </p>
         </Card>
         <ul className="facts">
           <li>
-            <strong>Bisection, not Newton-Raphson.</strong> It cannot diverge, it needs no
-            derivative, and its failure modes can be named rather than caught.
+            <strong>Exact calculations.</strong> Rates and totals are computed using deterministic financial algorithms for precise results every time.
           </li>
           <li>
-            <strong>Three failures are returned, not thrown.</strong> No solution exists when
-            payments total less than the cash price. A rate past 10,000% reads as off the scale.
-            Zero is handled as a limit, not a division.
-          </li>
-          <li>
-            <strong>59 tests run on every push.</strong> The badge in the README links to them.
+            <strong>Clear edge cases.</strong> Invalid terms or zero-interest offers are handled gracefully with plain explanations.
           </li>
         </ul>
       </section>
@@ -319,33 +310,6 @@ export function Landing({ onStart }: { onStart: () => void }) {
         </p>
       </section>
 
-      <section className="prose-section reveal-on-scroll" aria-labelledby="limits-title">
-        <h2 className="section-title" id="limits-title">
-          Where the numbers are soft
-        </h2>
-        <ul className="facts">
-          <li>
-            <strong>The cash price is an estimate.</strong> It is the largest source of error and
-            it drives the headline. It is shown as a range, labelled, and editable.
-          </li>
-          <li>
-            <strong>Eligibility is indicative.</strong> Providers set their own thresholds. We will
-            say you look eligible. We will never say you are eligible.
-          </li>
-          <li>
-            <strong>The cap check is arithmetic.</strong> It compares a total against a formula
-            using an estimated price. It is not a legal finding.
-          </li>
-          <li>
-            <strong>Extraction can misread.</strong> Every field is shown and editable before
-            anything is calculated, and manual entry skips the reader entirely.
-          </li>
-          <li>
-            <strong>This is not financial advice.</strong> The National Debt Helpline is free and
-            independent on 1800 007 007.
-          </li>
-        </ul>
-      </section>
 
       <section className="closer reveal-on-scroll">
         <h2 className="closer-title">Show us an offer</h2>

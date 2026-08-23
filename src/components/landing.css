@@ -28,7 +28,17 @@
   color: var(--text-secondary);
 }
 
-.section-note em {
+.section-highlight {
+  font-size: var(--size-heading);
+  line-height: 1.4;
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+  color: var(--text);
+  max-width: 100%;
+}
+
+.section-note em,
+.section-highlight em {
   font-style: normal;
   font-weight: 600;
   color: var(--text);
@@ -223,54 +233,111 @@
   color: var(--text-secondary);
 }
 
+/* ---- Facts & Feature Cards -------------------------------------------
+   Transformed from raw bullet lists into clean, modern responsive feature grids.
+   Keeps all information completely intact while eliminating bullet-point clutter. */
 .facts {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--sp-4);
   margin: 0;
   padding: 0;
   list-style: none;
-  max-width: var(--measure);
+  max-width: 100%;
 }
 
 .facts.tight {
-  gap: var(--sp-2);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-3);
 }
 
 .facts li {
-  font-size: var(--size-body);
-  line-height: var(--leading-body);
-  color: var(--text-secondary);
-  padding-left: var(--sp-5);
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4) var(--sp-4) var(--sp-4) var(--sp-5);
+  background: var(--bg-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  font-size: var(--size-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+  transition: border-color var(--response-fast) ease, background-color var(--response-fast) ease;
 }
 
 .facts li::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 0.68em;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-tertiary);
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  border-radius: 0 var(--radius-pill) var(--radius-pill) 0;
+  background: var(--hairline-strong);
+  transition: background-color var(--response-fast) ease;
+}
+
+.facts li:hover::before {
+  background: var(--text-secondary);
 }
 
 .facts strong {
+  display: block;
+  font-size: var(--size-body);
   color: var(--text);
   font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ---- Persona -----------------------------------------------------------
+   Set into the page rather than raised. It is context for the section
+   around it, not a claim competing with the figures elsewhere. */
+.persona {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--bg-sunken);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--hairline);
+  border-left: 4px solid var(--text);
+}
+
+.persona-name {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.persona .facts.tight {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.persona .facts.tight li {
+  background: var(--bg-raised);
+  padding-left: var(--sp-4);
+}
+
+.persona .facts.tight li::before {
+  display: none;
 }
 
 /* ---- Closer ------------------------------------------------------------ */
 .closer {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: var(--sp-4);
-  padding: var(--sp-7) var(--sp-6);
+  padding: var(--sp-6) var(--sp-7);
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
   background: var(--bg-raised);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
 }
 
 .closer-title {
@@ -285,16 +352,7 @@
 }
 
 /* ---- Scroll reveals ----------------------------------------------------
-   Driven by IntersectionObserver, not animation-timeline: view().
-
-   The scroll-timeline version shipped broken. A view() range measured in
-   entry/cover percentages degenerates when the element is taller than the
-   viewport, because such an element never "fully enters" — the range
-   inverts and the animation pins at its start, leaving the section at
-   opacity 0 forever. Four sections on this page were invisible.
-
-   An observer does not care how tall the element is. Reduced motion opts
-   out by never hiding anything in the first place. */
+   Driven by IntersectionObserver, not animation-timeline: view(). */
 @media (prefers-reduced-motion: no-preference) {
   .reveal-on-scroll {
     opacity: 0;
@@ -308,23 +366,4 @@
     opacity: 1;
     transform: none;
   }
-}
-
-/* ---- Persona -----------------------------------------------------------
-   Set into the page rather than raised. It is context for the section
-   around it, not a claim competing with the figures elsewhere. */
-.persona {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-5);
-  background: var(--bg-sunken);
-  border-radius: var(--radius);
-  border-left: 3px solid var(--text-tertiary);
-}
-
-.persona-name {
-  font-size: var(--size-body);
-  font-weight: 600;
-  letter-spacing: -0.01em;
 }

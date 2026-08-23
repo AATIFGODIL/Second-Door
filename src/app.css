@@ -48,14 +48,60 @@
   padding: var(--sp-3) var(--sp-5);
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: block;
+}
+
 .wordmark {
   font-size: var(--size-body);
   font-weight: 600;
   letter-spacing: -0.014em;
 }
 
-.masthead-cta {
+.masthead-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
   margin-left: auto;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 44px;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-pill);
+  background: var(--bg-sunken);
+  border: 1px solid var(--hairline-strong);
+  color: var(--text);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--response-fast) ease,
+    border-color var(--response-fast) ease,
+    transform var(--response-fast) ease;
+}
+
+.theme-toggle:hover {
+  background: var(--bg-raised);
+  border-color: var(--text-tertiary);
+}
+
+.theme-toggle:active {
+  transform: scale(0.97);
 }
 
 /* ---- Shell ---------------------------------------------------------- */
@@ -95,7 +141,7 @@
   line-height: var(--leading-title);
   letter-spacing: var(--track-title);
   font-weight: 600;
-  max-width: 22ch;
+  max-width: 36ch;
 }
 
 /* The quoted instalment, marked as the thing being contradicted. Colour
@@ -246,12 +292,17 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
-  padding-block: var(--sp-5) var(--sp-7);
+  width: 100%;
+  padding-block: var(--sp-6) var(--sp-9);
   border-top: 1px solid var(--hairline);
   font-size: var(--size-caption);
   letter-spacing: var(--track-caption);
   line-height: var(--leading-caption);
   color: var(--text-secondary);
+}
+
+.colophon p {
+  max-width: 100%;
 }
 
 .colophon strong {
