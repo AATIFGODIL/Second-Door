@@ -1,13 +1,3 @@
-/**
- * Turn an offer the user has confirmed into the figures shown on screen.
- *
- * Thin orchestration over finance.ts and cap.ts, kept out of the components so
- * the decision that matters here is testable: *whether* the cap check runs at
- * all. Running it on a credit contract or a BNPL arrangement would compare a
- * total against a ceiling that does not govern it, and print an accusation
- * from the wrong statute.
- */
-
 import { assessLeaseCap, type CapAssessment } from './cap'
 import {
   effectiveAnnualRate,
@@ -19,20 +9,13 @@ import {
 import type { ExtractedOffer } from './offer'
 
 export type Assessment = {
-  /** Every figure below is null until this is true. */
   computable: boolean
-  /** Plain-language names of what is still missing. */
   missing: string[]
   total: number | null
-  /** Midpoint of the estimated range — what the rate is solved against. */
   cashPriceMid: number | null
   extra: number | null
   rate: RateResult | null
-  /**
-   * Null when the offer is not a consumer lease. s175AA governs leases only;
-   * a credit contract answers to the 48% annual cost rate instead, and BNPL
-   * to neither.
-   */
+  /** Null unless the offer is a consumer lease. s175AA governs nothing else. */
   cap: CapAssessment | null
 }
 
@@ -58,9 +41,7 @@ export function assess(offer: ExtractedOffer): Assessment {
 
   if (missing.length > 0) return { ...EMPTY, missing }
 
-  // Guard the inversion rather than trusting the two fields to be ordered —
-  // they are both user-editable and nothing stops someone typing them
-  // backwards.
+  // Both fields are user editable and nothing stops them being typed backwards.
   const priceLow = Math.min(low as number, high as number)
   const priceHigh = Math.max(low as number, high as number)
   const cashPriceMid = (priceLow + priceHigh) / 2
@@ -74,12 +55,6 @@ export function assess(offer: ExtractedOffer): Assessment {
     offer.termPeriods,
   )
 
-  /*
-   * The cap is tested against the TOP of the range, never the midpoint. A
-   * higher base price permits a higher cap, so this is the reading least
-   * likely to accuse a provider wrongly — the same reason the month count
-   * rounds up. Every ambiguity resolves in the provider's favour.
-   */
   const cap =
     offer.contractType === 'consumer_lease'
       ? assessLeaseCap({

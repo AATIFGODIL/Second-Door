@@ -1,14 +1,6 @@
 import { useState } from 'react'
 import './controls.css'
 
-/**
- * A number the user can clear, and can type a decimal point into.
- *
- * Holding the raw string rather than the parsed number matters more than it
- * looks. Binding a number straight to the input means backspacing the last
- * digit snaps the field to 0, and anything recomputing downstream fires on a
- * value the user never typed.
- */
 export function NumberField({
   id,
   label,
@@ -31,16 +23,9 @@ export function NumberField({
   const [draft, setDraft] = useState(value === null ? '' : String(value))
   const [seen, setSeen] = useState(value)
 
-  /*
-   * Re-sync when the value changes from outside: a new extraction, or a reset.
-   *
-   * The comparison is against what the draft *parses to*, not against the
-   * previous prop, because this field causes most of its own prop changes.
-   * Typing "17." commits 17, which is a changed prop, and a naive resync would
-   * rewrite the draft as "17" and eat the decimal point the moment it was
-   * typed. Number("17.") is 17, so the parsed draft already matches and the
-   * draft is left alone.
-   */
+  // Compare against what the draft parses to, not the previous prop: this
+  // field causes most of its own prop changes, and typing "17." commits 17,
+  // which a naive resync would rewrite as "17" and eat the decimal point.
   if (value !== seen) {
     setSeen(value)
     const asNumber = draft.trim() === '' ? null : Number(draft)

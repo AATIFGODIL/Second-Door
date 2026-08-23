@@ -1,18 +1,3 @@
-/**
- * Three offers to demonstrate on, and the pre-extracted result for each.
- *
- * These do double duty. In the interface they are the "try an example" path,
- * so a judge with no ad to hand can still see the product work. In the
- * serverless function they are the DEMO_ONLY payload: with that flag set the
- * function returns the matching offer and makes no upstream call at all, so a
- * burned or rate-limited key cannot take the demo down.
- *
- * The advertisements are written for this project. The providers are invented
- * — the offer structures and the pricing are typical of the real market, but
- * naming an actual retailer beside an over-cap total would be an accusation we
- * have no basis to make.
- */
-
 import type { ExtractedOffer } from '../lib/offer.ts'
 
 export type Example = {

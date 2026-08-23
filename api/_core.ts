@@ -1,44 +1,20 @@
-/**
- * Offer extraction — the only place this project talks to a language model.
- *
- * Framework-agnostic on purpose. The Vercel function in extract.ts and the
- * Vite dev middleware both call handleExtract, so local development exercises
- * the same code path that runs in production rather than a stub of it.
- *
- * The model reads the advertisement and returns fields. It is never asked for
- * a total, a rate or a comparison — those are computed from its output by
- * src/lib/finance.ts, which has tests. If a judge asks whether the AI made a
- * number up, the honest answer is that it did not have the opportunity.
- */
-
 import { GoogleGenAI, ApiError, ThinkingLevel } from '@google/genai'
 import * as z from 'zod'
 import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer.ts'
 import { matchExample } from '../src/data/examples.ts'
 import { checkRate } from './_ratelimit.ts'
 
-/**
- * Flash-Lite is the cheap tier, and reading a payment amount off an ad does
- * not need more than that. Cost per extraction is the thing most likely to
- * end this demo early, so the model choice is a safety measure as much as a
- * performance one.
- */
 const MODEL = 'gemini-3.5-flash-lite'
 
-/** The response is a dozen short fields. Anything longer is a malfunction. */
 const MAX_OUTPUT_TOKENS = 1024
 
-/** Decoded bytes. The client downscales before sending; this is the backstop. */
+/** Decoded bytes. The client downscales first; this is the backstop. */
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024
 const MAX_TEXT_CHARS = 8_000
 
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif']
 
-/**
- * Gemini accepts JSON Schema directly, so the zod schema in src/lib/offer.ts
- * stays the single definition — the model is constrained by the same shape the
- * browser validates against. $schema is outside the supported subset.
- */
+// $schema is outside the subset Gemini accepts.
 const RESPONSE_SCHEMA: Record<string, unknown> = (() => {
   const { $schema: _drop, ...rest } = z.toJSONSchema(ExtractedOffer) as Record<string, unknown>
   return rest
@@ -61,8 +37,7 @@ const RequestBody = z.object({
   image: z
     .object({
       mimeType: z.string(),
-      /** Base64, no data: prefix. */
-      data: z.string(),
+        data: z.string(),
     })
     .optional(),
 })
@@ -80,7 +55,6 @@ const fail = (
   headers?: Record<string, string>,
 ): HandlerResult => ({ status, body: { ok: false, code, message }, headers })
 
-/** Decoded size of a base64 payload, without allocating it. */
 function base64Bytes(data: string): number {
   const padding = data.endsWith('==') ? 2 : data.endsWith('=') ? 1 : 0
   return Math.floor((data.length * 3) / 4) - padding
@@ -97,12 +71,8 @@ export async function handleExtract(raw: unknown, ip: string): Promise<HandlerRe
     return fail(400, 'no_input', 'Send an offer as text or as an image.')
   }
 
-  /*
-   * The kill switch, checked before the rate limit and before the key. With
-   * DEMO_ONLY set this endpoint needs no credentials at all and cannot cost
-   * anything, which is the point: if the key burns mid-judging, flipping this
-   * keeps the demo alive.
-   */
+  // Checked before the rate limit and the key: with DEMO_ONLY set this needs
+  // no credentials and cannot cost anything.
   if (process.env.DEMO_ONLY === 'true') {
     return { status: 200, body: { ok: true, offer: matchExample(text).offer, demo: true } }
   }
@@ -146,8 +116,7 @@ export async function handleExtract(raw: unknown, ip: string): Promise<HandlerRe
         responseMimeType: 'application/json',
         responseJsonSchema: RESPONSE_SCHEMA,
         maxOutputTokens: MAX_OUTPUT_TOKENS,
-        // Already the default on Flash-Lite; set explicitly because this is a
-        // cost-sensitive path and the default is not a promise.
+        // Already the Flash-Lite default; pinned because this path is cost sensitive.
         thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },
       },
     })
@@ -157,12 +126,9 @@ export async function handleExtract(raw: unknown, ip: string): Promise<HandlerRe
       return fail(502, 'unreadable', 'We could not read that offer. Type the numbers in instead.')
     }
 
-    /*
-     * Structured output should make this redundant. It is here anyway: the
-     * failure it guards against is a malformed offer reaching the finance
-     * engine and producing a confident wrong number, which is the worst thing
-     * this product could do.
-     */
+    // Structured output should make this redundant. The failure it guards is a
+    // malformed offer reaching the finance engine and producing a confident
+    // wrong number.
     const offer = ExtractedOffer.safeParse(JSON.parse(body))
     if (!offer.success) {
       return fail(502, 'unreadable', 'We could not read that offer. Type the numbers in instead.')
@@ -171,8 +137,7 @@ export async function handleExtract(raw: unknown, ip: string): Promise<HandlerRe
     return { status: 200, body: { ok: true, offer: offer.data, demo: false } }
   } catch (error) {
     if (error instanceof ApiError) {
-      // 429 upstream is our own quota, not the caller's — say so plainly
-      // rather than blaming the person holding the phone.
+      // Upstream 429 is our quota, not the caller's.
       if (error.status === 429) {
         return fail(503, 'upstream', 'The reader is over its quota right now. Type the numbers in instead.')
       }

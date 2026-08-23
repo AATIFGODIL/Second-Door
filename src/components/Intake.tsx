@@ -51,7 +51,7 @@ export function Intake({ onRead, onManual }: Props) {
   }
 
   return (
-    <div className="intake">
+    <div className="intake" id="tool">
       <Card className="intake-card">
         <div className="field">
           <label className="field-label" htmlFor="offer-text">

@@ -1,11 +1,3 @@
-/**
- * POST /api/extract — the only server-side route in the project.
- *
- * It exists to hold the API key. Nothing else here is server-side, and this
- * function stores nothing, logs no offer content, and returns no more than the
- * extracted fields.
- */
-
 import { handleExtract } from './_core.ts'
 import { clientIp } from './_ratelimit.ts'
 

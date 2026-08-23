@@ -59,6 +59,17 @@
   color: var(--text);
 }
 
+/* A pill sized for chrome rather than for a form: smaller type and
+   tighter padding, but the 44px touch target is not negotiable. This is
+   used one-handed on a phone, so the bar grows to fit the control rather
+   than the control shrinking to fit the bar. */
+.button[data-size='compact'] {
+  min-height: 44px;
+  padding: var(--sp-2) var(--sp-4);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+}
+
 /* ---- Fields --------------------------------------------------------- */
 .field {
   display: flex;

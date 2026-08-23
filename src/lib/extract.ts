@@ -1,16 +1,6 @@
-/**
- * Client side of extraction: get an offer to the endpoint, get fields back.
- *
- * Images are downscaled here rather than sent whole. A modern phone photo is
- * 3–5 MB and carries no more readable text than a 1568px version, so
- * downscaling cuts the upload, the token count and the bill without costing
- * accuracy. The server enforces its own limit regardless — this is a courtesy,
- * not a control.
- */
-
 import type { ExtractResponse } from './offer'
 
-/** Anthropic and Google both stop gaining accuracy past roughly this size. */
+// Accuracy stops improving past roughly this size.
 const MAX_EDGE_PX = 1568
 const JPEG_QUALITY = 0.85
 

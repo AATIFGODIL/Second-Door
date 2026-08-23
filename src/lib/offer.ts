@@ -1,16 +1,3 @@
-/**
- * The shape of an offer once it has been read.
- *
- * This schema is the contract between the extraction model and everything
- * downstream. It is shared by the serverless function (which hands it to the
- * API as a structured-output format, so the model is constrained to it rather
- * than asked politely for JSON) and by the browser (which re-validates the
- * response before any of it reaches a calculation).
- *
- * The field descriptions are load-bearing — they are compiled into the JSON
- * schema and are the only instructions the model gets about each field.
- */
-
 import * as z from 'zod'
 import type { Frequency } from './finance.ts'
 
@@ -78,13 +65,12 @@ export const ExtractedOffer = z.object({
 
 export type ExtractedOffer = z.infer<typeof ExtractedOffer>
 
-/** The extraction enum and the finance engine's Frequency must not drift apart. */
+// Guards against the extraction enum and the finance engine drifting apart.
 const _frequencyMatches: Frequency = 'weekly' satisfies ExtractedOffer['frequency']
 void _frequencyMatches
 
 export type ExtractFailure = {
   ok: false
-  /** Machine-readable, so the interface can choose its own words. */
   code: 'no_input' | 'too_large' | 'rate_limited' | 'unreadable' | 'upstream' | 'not_configured'
   message: string
 }
@@ -92,7 +78,6 @@ export type ExtractFailure = {
 export type ExtractSuccess = {
   ok: true
   offer: ExtractedOffer
-  /** True when the response came from the bundled examples, not the API. */
   demo: boolean
 }
 
