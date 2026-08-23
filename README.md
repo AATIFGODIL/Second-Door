@@ -111,6 +111,34 @@ we compute ourselves. It is deliberately never called a *comparison rate* or an
 *annual cost rate*. Both are defined terms in Australian credit law with prescribed
 calculation methods, and this figure is neither.
 
+## Can they actually repay it?
+
+Being a bad deal and being unaffordable are different problems, and the second one
+decides whether someone defaults and loses the goods. So the results screen asks for
+what the person brings in, and optionally what the essentials cost.
+
+The denominator is the whole point. $115 a week against $450 income is 26% and sounds
+survivable. Against the $130 actually left after rent and bills it is 88%, which is
+the figure that predicts a missed payment. When essentials are known we always measure
+against the surplus, and a zero or negative surplus is handled explicitly rather than
+producing a small negative percentage that reads as reassuring.
+
+This never returns a decision. It reports a share of income and a band, and says so in
+the interface. Second Door does not assess anyone, and nothing entered here leaves the
+device or is stored. A tool that told someone they were approved or declined would be
+the most harmful thing this project could ship.
+
+## Plain language
+
+Financial exclusion is not only about lacking an account. Sometimes a person has access
+to a product and cannot read it well enough to use it safely.
+
+Every financial term on the results screen carries an explanation in ordinary words:
+the annual rate, the affordability percentage, and what a consumer lease means for who
+owns the item. They are `<details>` elements, so they open with no JavaScript, are
+keyboard operable and announced correctly for free, and find-in-page reaches closed
+content.
+
 ## Why we never touch money
 
 Second Door is a calculator and a directory. It originates no credit, brokers no
@@ -160,6 +188,10 @@ manual entry path that skips extraction entirely, and every error state leads to
 a caller spread across instances gets a multiple of the nominal limit. What actually
 protects the key is the spend cap, the cheap model, and the `DEMO_ONLY` flag.
 
+**The affordability bands are rough guides.** They are arithmetic on figures the user
+types, not a serviceability model. A lender assessing someone would look at far more
+than this, and there is no fixed line between safe and unsafe.
+
 **This is not financial advice.** It is a calculator and a directory. It cannot know
 your circumstances, and it is not a substitute for a financial counsellor. The
 National Debt Helpline (1800 007 007) is free and independent.
@@ -193,13 +225,14 @@ npm test
 | 3 | Serverless proxy holding the API key | done |
 | 4 | Extraction from image and text, editable fields | done |
 | 5 | Scrolling explainer and two-door result screen | done |
-| 6 | Plain-language trap cards | next |
-| 7 | NILS eligibility and provider lookup | |
+| 6 | Plain-language explanations of every term | done |
+| 6b | Affordability against income and essentials | done |
+| 7 | NILS eligibility and provider lookup | next |
 | 8 | Read-aloud and accessibility pass | |
 | 9 | Demo mode and failure fallbacks | partial |
-| 10 | Deploy | |
+| 10 | Deploy | done |
 
-59 tests currently pass.
+73 tests currently pass.
 
 ## Stack
 
