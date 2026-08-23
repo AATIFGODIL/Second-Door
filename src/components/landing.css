@@ -309,3 +309,22 @@
     transform: none;
   }
 }
+
+/* ---- Persona -----------------------------------------------------------
+   Set into the page rather than raised. It is context for the section
+   around it, not a claim competing with the figures elsewhere. */
+.persona {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  background: var(--bg-sunken);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--text-tertiary);
+}
+
+.persona-name {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}

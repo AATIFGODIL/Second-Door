@@ -1,0 +1,138 @@
+.afford {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.afford-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.afford-title {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.afford-intro {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.afford-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* Amount and its frequency read as one question, so they sit on one row
+   and the frequency stays narrow. */
+.afford-pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 560px) {
+  .afford-pair {
+    grid-template-columns: minmax(0, 1fr) 11rem;
+    align-items: start;
+  }
+}
+
+.afford-empty {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+/* ---- Result -----------------------------------------------------------
+   The band tints a left edge rather than the whole panel. A fully red
+   card reads as an error the person made; a marked edge reads as a
+   reading on a figure, which is what it is. */
+.afford-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  padding-left: calc(var(--sp-4) - 3px);
+  border-left: 3px solid var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  background: var(--bg-sunken);
+}
+
+.afford-result[data-tone='good'] {
+  border-left-color: var(--green-fill);
+}
+
+.afford-result[data-tone='warn'] {
+  border-left-color: var(--amber-fill);
+}
+
+.afford-result[data-tone='bad'] {
+  border-left-color: var(--red-fill);
+}
+
+.afford-band {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.afford-result[data-tone='good'] .afford-band {
+  color: var(--green-text);
+}
+
+.afford-result[data-tone='warn'] .afford-band {
+  color: var(--amber-text);
+}
+
+.afford-result[data-tone='bad'] .afford-band {
+  color: var(--red-text);
+}
+
+.afford-rows {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.afford-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-block: var(--sp-2);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+}
+
+.afford-row + .afford-row {
+  border-top: 1px solid var(--hairline);
+}
+
+.afford-row dt {
+  color: var(--text-secondary);
+}
+
+.afford-row dd {
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.afford-row dd[data-signal='bad'] {
+  color: var(--red-text);
+}
+
+.afford-caveat {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}

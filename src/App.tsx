@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react'
 import { Card, Figure } from './components/ui/Card'
 import { Intake } from './components/Intake'
+import { Affordability } from './components/Affordability'
+import { Explain } from './components/Explain'
 import { Landing } from './components/Landing'
 import { OfferEditor } from './components/OfferEditor'
 import { assess } from './lib/assess'
@@ -162,6 +164,21 @@ function Results({
         </dl>
       </Card>
 
+      <Explain term="the annual rate">
+        <p>
+          It is what this credit costs you over a year, written as a percentage, so offers of
+          different lengths can be compared with each other.
+        </p>
+        <p>
+          You do not need the formula. For this offer, the number that matters is that you pay{' '}
+          <strong>{money(extra)}</strong> more than the item is worth.
+        </p>
+        <p>
+          A credit card charges roughly 20% a year. A personal loan is usually under 15%. NILS
+          charges nothing at all.
+        </p>
+      </Explain>
+
       <section className="doors" aria-label="The two options side by side">
         <Card className="door">
           <h2 className="door-title">The offer you were shown</h2>
@@ -183,6 +200,8 @@ function Results({
           <Figure label="You pay" value={money(cash)} signal="good" />
         </Card>
       </section>
+
+      <Affordability payment={offer.payment} frequency={offer.frequency} />
 
       {cap?.kind === 'appears_over' ? (
         <Card className="notice" data-kind="warn">
@@ -224,12 +243,26 @@ function Results({
         </Card>
       ) : null}
 
+      <Explain term="a consumer lease">
+        <p>
+          You rent the item and pay weekly. The shop keeps ownership of it. In most of these
+          contracts you do not own the item at the end, even after paying more than it is worth.
+        </p>
+        <p>
+          Miss enough payments and they can take it back. You do not get back what you have already
+          paid.
+        </p>
+        <p>
+          A credit contract is different: you own the item from the start and owe the money
+          instead.
+        </p>
+      </Explain>
+
       <section className="upcoming" aria-labelledby="upcoming-title">
         <h2 className="upcoming-title" id="upcoming-title">
           Not built yet
         </h2>
         <ul className="upcoming-list">
-          <li>Plain-language cards on what will actually bite</li>
           <li>NILS eligibility check and provider lookup</li>
           <li>Read-aloud</li>
         </ul>

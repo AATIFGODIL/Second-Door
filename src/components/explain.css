@@ -1,0 +1,60 @@
+.explain {
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+}
+
+.explain-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.explain-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The marker is drawn rather than typographic so it can rotate. */
+.explain-summary::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-tertiary);
+  border-bottom: 2px solid var(--text-tertiary);
+  transform: rotate(-45deg);
+  transition: transform var(--response-fast) var(--ease-out);
+}
+
+.explain[open] .explain-summary::before {
+  transform: rotate(45deg);
+}
+
+.explain-summary:active {
+  opacity: 0.6;
+  transition: opacity 40ms linear;
+}
+
+.explain-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: 0 var(--sp-4) var(--sp-4);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.explain-body strong {
+  color: var(--text);
+  font-weight: 600;
+}

@@ -198,6 +198,48 @@ export function Landing({ onStart }: { onStart: () => void }) {
         </p>
       </section>
 
+      <section className="prose-section reveal-on-scroll" aria-labelledby="who-title">
+        <h2 className="section-title" id="who-title">
+          Built for people who do not speak bank
+        </h2>
+        <p className="section-lead">
+          Financial exclusion is not only about not having an account. Sometimes people have access
+          to a financial product and cannot read it well enough to use it safely.
+        </p>
+        <div className="persona">
+          <p className="persona-name">Sarah, 34. Two kids. Casual shifts.</p>
+          <ul className="facts tight">
+            <li>Her washing machine died on a Tuesday.</li>
+            <li>She has no savings and no credit card.</li>
+            <li>A card was declined last year, so she stopped asking.</li>
+            <li>The shop window says $20 a week and she can do $20 a week.</li>
+          </ul>
+        </div>
+        <p className="section-note">
+          Nobody hides the total from Sarah. It is in the contract. It is just never the number on
+          the sign, and working it out needs a calculator, the term length, and knowing to look.
+          Second Door does that in the thirty seconds before she signs.
+        </p>
+        <ul className="facts">
+          <li>
+            <strong>No jargon without a translation.</strong> Every financial term on the results
+            screen has a plain-language explanation attached to it.
+          </li>
+          <li>
+            <strong>The total comes first.</strong> The biggest thing on the screen is what you
+            will actually pay, not a rate.
+          </li>
+          <li>
+            <strong>Point a camera at it.</strong> No typing required, no account, no app to
+            install.
+          </li>
+          <li>
+            <strong>Affordability, not just price.</strong> An offer can be fair value and still
+            take everything you had spare. We show both.
+          </li>
+        </ul>
+      </section>
+
       <section className="prose-section reveal-on-scroll" aria-labelledby="cap-title">
         <h2 className="section-title" id="cap-title">
           The ceiling most people do not know exists
