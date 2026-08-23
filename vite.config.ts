@@ -19,7 +19,16 @@ function extractApi(env: Record<string, string>): Plugin {
     name: 'second-door:extract-api',
     configureServer(server) {
       server.middlewares.use('/api/extract', async (req, res) => {
-        const { handleExtract } = await import('./api/_core.ts')
+        // Loaded through the dev server, not imported here: a static import
+        // would drag the whole api/ graph into the config module graph, and
+        // Vercel needs those imports extensionless.
+        const { handleExtract } = (await server.ssrLoadModule('/api/_core.ts')) as {
+          handleExtract: (raw: unknown, ip: string) => Promise<{
+            status: number
+            body: unknown
+            headers?: Record<string, string>
+          }>
+        }
 
         if (req.method !== 'POST') {
           res.statusCode = 405

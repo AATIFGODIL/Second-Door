@@ -1,8 +1,8 @@
 import { GoogleGenAI, ApiError, ThinkingLevel } from '@google/genai'
 import * as z from 'zod'
-import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer.ts'
-import { matchExample } from '../src/data/examples.ts'
-import { checkRate } from './_ratelimit.ts'
+import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer'
+import { matchExample } from '../src/data/examples'
+import { checkRate } from './_ratelimit'
 
 const MODEL = 'gemini-3.5-flash-lite'
 
@@ -14,11 +14,19 @@ const MAX_TEXT_CHARS = 8_000
 
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif']
 
-// $schema is outside the subset Gemini accepts.
-const RESPONSE_SCHEMA: Record<string, unknown> = (() => {
-  const { $schema: _drop, ...rest } = z.toJSONSchema(ExtractedOffer) as Record<string, unknown>
-  return rest
-})()
+// Built on first use, not at module load. A throw at module scope takes the
+// whole function down before the handler can return anything readable, and
+// FUNCTION_INVOCATION_FAILED tells the caller nothing.
+let responseSchema: Record<string, unknown> | undefined
+
+function schema(): Record<string, unknown> {
+  if (!responseSchema) {
+    // $schema is outside the subset Gemini accepts.
+    const { $schema: _drop, ...rest } = z.toJSONSchema(ExtractedOffer) as Record<string, unknown>
+    responseSchema = rest
+  }
+  return responseSchema
+}
 
 const SYSTEM_INSTRUCTION = `You read Australian rent-to-own, consumer lease, and buy-now-pay-later advertisements and report the figures printed in them.
 
@@ -114,7 +122,7 @@ export async function handleExtract(raw: unknown, ip: string): Promise<HandlerRe
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         responseMimeType: 'application/json',
-        responseJsonSchema: RESPONSE_SCHEMA,
+        responseJsonSchema: schema(),
         maxOutputTokens: MAX_OUTPUT_TOKENS,
         // Already the Flash-Lite default; pinned because this path is cost sensitive.
         thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL },

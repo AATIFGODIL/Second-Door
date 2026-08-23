@@ -1,5 +1,5 @@
-import { handleExtract } from './_core.ts'
-import { clientIp } from './_ratelimit.ts'
+import { handleExtract } from './_core'
+import { clientIp } from './_ratelimit'
 
 export default async function handler(request: Request): Promise<Response> {
   if (request.method !== 'POST') {
