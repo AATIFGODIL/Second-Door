@@ -245,17 +245,13 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
 
       <Explain term="a No Interest Loan Scheme (NILS) loan">
         <p>
-          You borrow up to the ceiling for the category and pay back exactly that. No interest, no
-          fees, no charges, ever.
+          <strong>Pay back only what you borrow.</strong> 0% interest, $0 fees, zero charges—ever.
         </p>
         <p>
-          The money goes straight to the shop, not to you, and you repay fortnightly over six to
-          forty eight months. It is funded by the federal government and run by community
-          organisations, which is why nobody advertises it.
+          <strong>Paid directly to the seller.</strong> Payment goes straight to the vendor for essential household items, repairs, bond, or medical care, repaid fortnightly over 6 to 48 months.
         </p>
         <p>
-          It is slower than walking into a rental shop. You need an appointment, proof of address,
-          and a conversation about repayments.
+          <strong>Government-backed & community-run.</strong> It takes a brief appointment with a local provider to check eligibility and set up an affordable repayment plan.
         </p>
       </Explain>
     </Card>
