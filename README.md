@@ -139,6 +139,25 @@ owns the item. They are `<details>` elements, so they open with no JavaScript, a
 keyboard operable and announced correctly for free, and find-in-page reaches closed
 content.
 
+## The second door
+
+Five questions, answered on the device and sent nowhere. They map onto the criteria
+NILS publishes rather than onto anything invented here: a concession card, an income
+guideline of $70,000 single or $100,000 with a partner or dependants before tax, family
+or domestic violence in the last ten years, whether the purchase is an essential, and
+whether the person is behind on existing repayments.
+
+Two rules govern the outcome. Family or domestic violence carries no income test, so a
+negative income answer cannot downgrade it. And the strongest thing the tool will ever
+say is *you look eligible*, because providers set their own thresholds and assess
+capacity to repay individually. Being behind on repayments is published as a reason
+someone would not be eligible, and it still resolves to *worth asking* rather than a
+refusal, because a provider might help anyway and a financial counsellor certainly can.
+
+It also checks the purchase against the published ceiling for its category, so someone
+learns that a $1,500 phone is above the $1,000 phone limit before they book an
+appointment rather than after.
+
 ## Why we never touch money
 
 Second Door is a calculator and a directory. It originates no credit, brokers no
@@ -170,9 +189,12 @@ thresholds, assess capacity to repay individually, and are not bound by the
 guideline figures we check against. Second Door will say *you look eligible, here is
 how to check*. It will never say *you are eligible*.
 
-**The provider list is not built yet.** When it lands it will be a dated snapshot of
-public data from the Good Shepherd directory, labelled with its capture date and not
-fetched live. Providers close, move, and change intake hours.
+**The provider list is a dated snapshot.** It is real public data captured from the
+official NILS directory on 23 August 2026, covering the 19 providers within 20km of
+Melbourne. It is not fetched live. Providers close, move and change intake hours, so
+the interface shows the capture date, links to the live directory beside it, and leads
+with the national line rather than a specific branch. One entry carries a postcode that
+does not match its suburb; it is shown as published, with a note.
 
 **The cap check is arithmetic, not a legal finding.** It compares a total against a
 statutory formula using an estimated base price. It does not know about permitted
@@ -210,29 +232,12 @@ bundled examples with no upstream call.
 npm run dev
 ```
 
-The cost engine, the cap check and the assessment layer:
+85 tests cover the cost engine, the s175AA cap, the assessment layer, affordability
+and the eligibility rules:
 
 ```bash
 npm test
 ```
-
-## Build status
-
-| Block | | |
-| --- | --- | --- |
-| 1 | Scaffold, design tokens, interface primitives | done |
-| 2 | Finance engine and s175AA cap check | done |
-| 3 | Serverless proxy holding the API key | done |
-| 4 | Extraction from image and text, editable fields | done |
-| 5 | Scrolling explainer and two-door result screen | done |
-| 6 | Plain-language explanations of every term | done |
-| 6b | Affordability against income and essentials | done |
-| 7 | NILS eligibility and provider lookup | next |
-| 8 | Read-aloud and accessibility pass | |
-| 9 | Demo mode and failure fallbacks | partial |
-| 10 | Deploy | done |
-
-73 tests currently pass.
 
 ## Stack
 

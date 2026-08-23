@@ -1,0 +1,300 @@
+.second-door {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.sd-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.sd-title {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.sd-intro,
+.sd-empty {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.sd-sub {
+  font-size: var(--size-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+/* ---- Questions --------------------------------------------------------
+   Yes and No as two large targets rather than a radio pair. This is used
+   standing up, on a phone, possibly in a shop. */
+.sd-questions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: q;
+}
+
+.sd-question {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.sd-q-label {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  max-width: 46ch;
+}
+
+.sd-q-hint {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+  max-width: 52ch;
+}
+
+.sd-choices {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+}
+
+.sd-choice {
+  flex: 1;
+  max-width: 10rem;
+  min-height: 48px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  background: var(--bg-raised);
+  font-size: var(--size-body);
+  font-weight: 600;
+  color: var(--text);
+  transition:
+    transform var(--response-fast) var(--ease-out),
+    background-color var(--response-fast) linear,
+    border-color var(--response-fast) linear;
+}
+
+.sd-choice:active {
+  transform: scale(0.97);
+  transition-duration: 40ms;
+}
+
+.sd-choice[data-chosen] {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg-raised);
+}
+
+/* ---- Outcome ----------------------------------------------------------- */
+.sd-outcome {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  padding-left: calc(var(--sp-4) - 3px);
+  border-left: 3px solid var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  background: var(--bg-sunken);
+}
+
+.sd-outcome[data-tone='good'] {
+  border-left-color: var(--green-fill);
+}
+.sd-outcome[data-tone='warn'] {
+  border-left-color: var(--amber-fill);
+}
+.sd-outcome[data-tone='bad'] {
+  border-left-color: var(--red-fill);
+}
+
+.sd-outcome-title {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.sd-outcome[data-tone='good'] .sd-outcome-title {
+  color: var(--green-text);
+}
+.sd-outcome[data-tone='warn'] .sd-outcome-title {
+  color: var(--amber-text);
+}
+.sd-outcome[data-tone='bad'] .sd-outcome-title {
+  color: var(--red-text);
+}
+
+.sd-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+  padding-left: var(--sp-5);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.sd-outcome-caveat {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}
+
+/* ---- Coverage ---------------------------------------------------------- */
+.sd-coverage,
+.sd-providers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.sd-coverage .field,
+.sd-providers .field {
+  max-width: 22rem;
+}
+
+.sd-coverage-note {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.sd-coverage-note[data-signal='bad'] {
+  color: var(--amber-text);
+}
+
+/* ---- The national line ------------------------------------------------
+   The single most useful thing on this panel, so it is the largest and
+   it is a tel: link rather than text someone has to copy out. */
+.sd-national {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4);
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+  border: 1px solid var(--hairline-strong);
+  text-decoration: none;
+  color: var(--text);
+  transition: transform var(--response-fast) var(--ease-out);
+}
+
+.sd-national:active {
+  transform: scale(0.99);
+  transition-duration: 40ms;
+}
+
+.sd-national-label {
+  font-size: var(--size-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.sd-national-number {
+  font-size: var(--size-title);
+  line-height: var(--leading-title);
+  letter-spacing: var(--track-title);
+  font-weight: 700;
+}
+
+.sd-national-hours {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  color: var(--text-secondary);
+}
+
+/* ---- Provider list ------------------------------------------------------ */
+.sd-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.sd-provider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.sd-provider + .sd-provider {
+  border-top: 1px solid var(--hairline);
+}
+
+.sd-provider-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sd-provider-name {
+  font-size: var(--size-small);
+  font-weight: 600;
+  letter-spacing: var(--track-small);
+}
+
+.sd-provider-where,
+.sd-provider-address {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  color: var(--text-secondary);
+}
+
+.sd-provider-call {
+  flex: none;
+  padding: var(--sp-2) var(--sp-4);
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--hairline-strong);
+  font-size: var(--size-small);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.sd-provider-call:active {
+  opacity: 0.6;
+  transition: opacity 40ms linear;
+}
+
+.sd-snapshot {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}
+
+.sd-snapshot a {
+  color: var(--blue-text);
+  text-underline-offset: 2px;
+}

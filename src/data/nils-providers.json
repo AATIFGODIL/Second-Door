@@ -1,0 +1,28 @@
+{
+  "source": "https://nils.com.au/find-a-provider",
+  "query": "Providers within 20km of Melbourne VIC 3000",
+  "capturedOn": "2026-08-23",
+  "nationalLine": { "label": "13 NILS", "number": "13 64 57", "tel": "136457", "hours": "Monday to Friday, 9:00am to 4:00pm" },
+  "vehiclesLine": { "number": "1300 645 748", "tel": "1300645748", "note": "Vehicle loans are only offered by some providers." },
+  "providers": [
+    { "name": "Disability Talk, Touching Base Wellness", "suburb": "West Melbourne", "postcode": "3003", "phone": "(03) 8317 9090", "tel": "0383179090", "address": "1a/561 Spencer St, West Melbourne VIC 3003", "inPerson": true },
+    { "name": "Good Shepherd Collingwood", "suburb": "Collingwood", "postcode": "3066", "phone": "1300 770 550", "tel": "1300770550", "address": "Unit 6-7, 134 Cambridge St, Collingwood VIC 3066", "hours": "Monday to Friday, 9:30am to 4:30pm", "inPerson": true },
+    { "name": "Port Phillip Community Group, Port Melbourne", "suburb": "Port Melbourne", "postcode": "3207", "phone": "(03) 8598 6600", "tel": "0385986600", "address": "333 Bay St, Port Melbourne VIC 3207", "inPerson": true },
+    { "name": "Port Phillip Community Group, St Kilda", "suburb": "St Kilda", "postcode": "3182", "phone": "(03) 8598 6600", "tel": "0385986600", "address": "161 Chapel St, St Kilda VIC 3182", "inPerson": true },
+    { "name": "Uniting, Footscray", "suburb": "Footscray", "postcode": "3011", "phone": "1800 002 992", "tel": "1800002992", "inPerson": false },
+    { "name": "Vinnies NILS, Newport", "suburb": "Newport", "postcode": "3015", "phone": "(03) 5229 8829", "tel": "0352298829", "inPerson": false },
+    { "name": "Darebin Information Volunteer & Resource Service", "suburb": "Preston", "postcode": "3072", "phone": "(03) 9480 8200", "tel": "0394808200", "address": "285-287 High Street, Preston VIC 3072", "inPerson": true },
+    { "name": "Salvation Army, Preston", "suburb": "Preston", "postcode": "3072", "phone": "(02) 6241 0518", "tel": "0262410518", "inPerson": false },
+    { "name": "Salvation Army, Merri-bek City", "suburb": "Merri-bek", "postcode": "3058", "phone": "(02) 6241 0518", "tel": "0262410518", "inPerson": false },
+    { "name": "Community Information & Support Glen Eira", "suburb": "Glen Huntly", "postcode": "3163", "phone": "(03) 9571 7644", "tel": "0395717644", "address": "1134 Glen Huntly Rd, Glen Huntly VIC 3163", "inPerson": false },
+    { "name": "Salvation Army, Sunshine", "suburb": "Sunshine", "postcode": "3020", "phone": "(02) 6241 0518", "tel": "0262410518", "address": "34 Devonshire Road, Sunshine VIC 3020", "inPerson": true },
+    { "name": "Vinnies NILS, Hobsons Bay", "suburb": "Altona", "postcode": "3018", "phone": "(03) 5229 8829", "tel": "0352298829", "inPerson": false },
+    { "name": "Salvation Army, Bentleigh", "suburb": "Bentleigh", "postcode": "3204", "phone": "(02) 6241 0518", "tel": "0262410518", "inPerson": false },
+    { "name": "Bayside Community Information & Support Service", "suburb": "Hampton East", "postcode": "3188", "phone": "(03) 9555 9910", "tel": "0395559910", "address": "12 Katoomba Street, Hampton East VIC 3188", "inPerson": true },
+    { "name": "Uniting, Broadmeadows", "suburb": "Broadmeadows", "postcode": "3047", "phone": "(03) 9351 3600", "tel": "0393513600", "address": "413-419 Camp Rd, Broadmeadows VIC 3047", "inPerson": false },
+    { "name": "Vinnies NILS, Laverton", "suburb": "Laverton", "postcode": "3028", "phone": "(03) 5229 8829", "tel": "0352298829", "inPerson": false },
+    { "name": "Salvation Army, Greensborough", "suburb": "Greensborough", "postcode": "3088", "phone": "(02) 6241 0518", "tel": "0262410518", "inPerson": false },
+    { "name": "Salvation Army, Whittlesea", "suburb": "Mill Park", "postcode": "3082", "phone": "(02) 6241 0518", "tel": "0262410518", "address": "1 The Fred Hollows Way (cnr Morang Drv), Mill Park VIC 3082", "inPerson": true },
+    { "name": "Australian Vietnamese Arts", "suburb": "Sunshine", "postcode": "3644", "phone": "0438 933 923", "tel": "0438933923", "inPerson": false, "note": "The directory lists this postcode as 3644, which does not match Sunshine. Shown as published." }
+  ]
+}

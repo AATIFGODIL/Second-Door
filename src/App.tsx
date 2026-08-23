@@ -4,6 +4,7 @@ import { Intake } from './components/Intake'
 import { Affordability } from './components/Affordability'
 import { Explain } from './components/Explain'
 import { Landing } from './components/Landing'
+import { SecondDoor } from './components/SecondDoor'
 import { OfferEditor } from './components/OfferEditor'
 import { assess } from './lib/assess'
 import { money, moneyExact, rate, term } from './lib/format'
@@ -243,6 +244,8 @@ function Results({
         </Card>
       ) : null}
 
+      <SecondDoor cashPrice={cash} />
+
       <Explain term="a consumer lease">
         <p>
           You rent the item and pay weekly. The shop keeps ownership of it. In most of these
@@ -263,7 +266,6 @@ function Results({
           Not built yet
         </h2>
         <ul className="upcoming-list">
-          <li>NILS eligibility check and provider lookup</li>
           <li>Read-aloud</li>
         </ul>
       </section>
