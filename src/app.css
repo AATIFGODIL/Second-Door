@@ -333,3 +333,32 @@
 .skip:focus-visible {
   transform: translateY(0);
 }
+
+/* ---- Scroll progress --------------------------------------------------
+   Sits on the masthead's bottom edge and tracks document scroll. Pure
+   CSS scroll-driven animation, so it costs no main-thread work and
+   simply does not appear where animation-timeline is unsupported. */
+.scroll-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: var(--text);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  opacity: 0.5;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: scroll-progress linear;
+    animation-timeline: scroll();
+  }
+
+  @keyframes scroll-progress {
+    to {
+      transform: scaleX(1);
+    }
+  }
+}

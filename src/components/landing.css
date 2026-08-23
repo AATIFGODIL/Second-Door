@@ -1,0 +1,311 @@
+.landing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-9);
+  padding-top: var(--sp-8);
+}
+
+.section-title {
+  font-size: var(--size-title);
+  line-height: var(--leading-title);
+  letter-spacing: var(--track-title);
+  font-weight: 600;
+  max-width: 20ch;
+}
+
+.section-lead {
+  font-size: var(--size-heading);
+  line-height: 1.4;
+  letter-spacing: var(--track-heading);
+  color: var(--text-secondary);
+  max-width: 42ch;
+}
+
+.section-note {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.section-note em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---- The pinned arithmetic -------------------------------------------
+   One figure stays put while the reasoning scrolls past it. This is the
+   only choreographed motion on the page; everything else is a fade. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.stack-body {
+  display: grid;
+  gap: var(--sp-6);
+}
+
+@media (min-width: 860px) {
+  .stack-body {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    align-items: start;
+  }
+}
+
+.stack-steps {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each step holds roughly half a viewport of scroll. Without a minimum
+   the five steps are short enough to pass in about 700px, which reads as
+   a glitch rather than a sequence: the pinned figure flickers through
+   five values before the eye lands on any of them. */
+.step {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 46vh;
+  padding-block: var(--sp-5);
+  opacity: 0.32;
+  transition: opacity var(--response) var(--ease-out);
+}
+
+@media (min-width: 860px) {
+  .step {
+    min-height: 62vh;
+  }
+}
+
+.step[data-active] {
+  opacity: 1;
+}
+
+.step-lead {
+  font-size: var(--size-heading);
+  line-height: 1.3;
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.step-body {
+  font-size: var(--size-body);
+  color: var(--text-secondary);
+  max-width: 36ch;
+}
+
+/* On narrow screens the pin sits above the steps and stays there. On
+   wide screens it holds the right column. Either way it is sticky, so
+   the figure and the sentence explaining it are on screen together. */
+.stack-pin {
+  order: -1;
+  position: sticky;
+  top: 4.5rem;
+  z-index: 1;
+}
+
+@media (min-width: 860px) {
+  .stack-pin {
+    order: 0;
+    top: 30vh;
+  }
+}
+
+.pin {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-6);
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+}
+
+.pin-figure {
+  font-size: clamp(2.75rem, 9vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: var(--track-display);
+  font-weight: 700;
+  transition: color var(--response) var(--ease-out);
+}
+
+.pin-figure[data-signal='bad'] {
+  color: var(--red-text);
+}
+
+.pin-figure[data-signal='good'] {
+  color: var(--green-text);
+}
+
+.pin-caption {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  color: var(--text-secondary);
+}
+
+.pin-dots {
+  display: flex;
+  gap: var(--sp-2);
+  margin: var(--sp-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pin-dots li {
+  width: 100%;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--hairline);
+  transition: background-color var(--response) var(--ease-out);
+}
+
+.pin-dots li[data-on] {
+  background: var(--text);
+}
+
+/* ---- Two doors -------------------------------------------------------- */
+.doors-story {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.door-figure {
+  font-size: var(--size-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--track-display);
+  font-weight: 700;
+  margin-top: auto;
+  padding-top: var(--sp-4);
+}
+
+.door-figure[data-signal='bad'] {
+  color: var(--red-text);
+}
+
+.door-figure[data-signal='good'] {
+  color: var(--green-text);
+}
+
+/* ---- Prose sections --------------------------------------------------- */
+.prose-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.formula-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  background: var(--bg-sunken);
+}
+
+.formula {
+  display: block;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: var(--size-small);
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.formula-note {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-width: var(--measure);
+}
+
+.facts.tight {
+  gap: var(--sp-2);
+}
+
+.facts li {
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+  padding-left: var(--sp-5);
+  position: relative;
+}
+
+.facts li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-tertiary);
+}
+
+.facts strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ---- Closer ------------------------------------------------------------ */
+.closer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: var(--sp-7) var(--sp-6);
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+}
+
+.closer-title {
+  font-size: var(--size-title);
+  line-height: var(--leading-title);
+  letter-spacing: var(--track-title);
+  font-weight: 600;
+}
+
+.closer-body {
+  color: var(--text-secondary);
+}
+
+/* ---- Scroll reveals ----------------------------------------------------
+   Driven by IntersectionObserver, not animation-timeline: view().
+
+   The scroll-timeline version shipped broken. A view() range measured in
+   entry/cover percentages degenerates when the element is taller than the
+   viewport, because such an element never "fully enters" — the range
+   inverts and the animation pins at its start, leaving the section at
+   opacity 0 forever. Four sections on this page were invisible.
+
+   An observer does not care how tall the element is. Reduced motion opts
+   out by never hiding anything in the first place. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity var(--response-slow) var(--ease-out),
+      transform var(--response-slow) var(--ease-out);
+  }
+
+  .reveal-on-scroll[data-revealed] {
+    opacity: 1;
+    transform: none;
+  }
+}

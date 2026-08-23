@@ -11,21 +11,6 @@ type Props = {
   onManual: () => void
 }
 
-/** Blank-ish offer for the manual path, which skips the model entirely. */
-export const BLANK_OFFER: ExtractedOffer = {
-  item: '',
-  payment: 0,
-  frequency: 'weekly',
-  termPeriods: 0,
-  contractType: 'unknown',
-  cashPriceLow: null,
-  cashPriceHigh: null,
-  advertisedTotal: null,
-  fees: [],
-  confidence: 'low',
-  unreadable: [],
-}
-
 export function Intake({ onRead, onManual }: Props) {
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)

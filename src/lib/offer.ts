@@ -97,3 +97,22 @@ export type ExtractSuccess = {
 }
 
 export type ExtractResponse = ExtractSuccess | ExtractFailure
+
+/**
+ * An empty offer, for the manual path that skips extraction entirely and for
+ * resetting between reads. Lives here rather than in a component so importing
+ * it does not defeat fast refresh.
+ */
+export const BLANK_OFFER: ExtractedOffer = {
+  item: '',
+  payment: 0,
+  frequency: 'weekly',
+  termPeriods: 0,
+  contractType: 'unknown',
+  cashPriceLow: null,
+  cashPriceHigh: null,
+  advertisedTotal: null,
+  fees: [],
+  confidence: 'low',
+  unreadable: [],
+}

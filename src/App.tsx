@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
 import { Card, Figure } from './components/ui/Card'
-import { BLANK_OFFER, Intake } from './components/Intake'
+import { Intake } from './components/Intake'
+import { Landing } from './components/Landing'
 import { OfferEditor } from './components/OfferEditor'
 import { assess } from './lib/assess'
 import { money, moneyExact, rate, term } from './lib/format'
-import type { ExtractedOffer } from './lib/offer'
+import { BLANK_OFFER, type ExtractedOffer } from './lib/offer'
 import './components/ui/controls.css'
 import './app.css'
 
@@ -33,6 +34,7 @@ export default function App() {
         <div className="masthead-inner">
           <span className="wordmark">Second Door</span>
           <span className="masthead-note">A calculator and a directory</span>
+          <div className="scroll-progress" aria-hidden="true" />
           {stage.name === 'reviewing' ? (
             <button
               type="button"
@@ -67,6 +69,8 @@ export default function App() {
                 onRead={(next, _source, demo) => start(next, demo)}
                 onManual={() => start(BLANK_OFFER, false)}
               />
+
+              <Landing onStart={() => window.scrollTo({ top: 0, behavior: 'smooth' })} />
             </>
           ) : (
             <>
@@ -139,7 +143,7 @@ function Results({
           <div className="breakdown-row">
             <dt>Effective annual rate</dt>
             <dd className="num" data-signal={extra > 0 ? 'bad' : undefined}>
-              {result.rate ? rate(result.rate) : '—'}
+              {result.rate ? rate(result.rate) : 'Not available'}
             </dd>
           </div>
           <div className="breakdown-row">
@@ -163,7 +167,7 @@ function Results({
           <p className="door-body">
             {moneyExact(offer.payment)} {offer.frequency}, {offer.termPeriods} times.
             {offer.contractType === 'consumer_lease'
-              ? ' A consumer lease — the provider owns it until the contract says otherwise.'
+              ? ' A consumer lease. The provider owns it until the contract says otherwise.'
               : ''}
           </p>
           <Figure label="You pay" value={money(total)} signal={extra > 0 ? 'bad' : 'none'} />
@@ -185,7 +189,7 @@ function Results({
           <p className="notice-body">
             Section 175AA of the National Credit Code caps a consumer lease at the base price plus
             4% of the base price for each whole month of the term. Over {cap.months} months that is{' '}
-            {money(cap.cap)}. This offer totals {money(total)} — {money(cap.excess)} above it.
+            {money(cap.cap)}. This offer totals {money(total)}, which is {money(cap.excess)} above it.
           </p>
           <p className="notice-foot">
             This is arithmetic on an estimated price, not a legal finding. AFCA and ASIC both take

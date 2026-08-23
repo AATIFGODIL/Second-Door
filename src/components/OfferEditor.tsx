@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Card } from './ui/Card'
 import type { ExtractedOffer } from '../lib/offer'
 import './ui/controls.css'
@@ -37,11 +37,23 @@ function NumberField({
   prefix?: string
 }) {
   const [draft, setDraft] = useState(value === null ? '' : String(value))
+  const [seen, setSeen] = useState(value)
 
-  // Re-sync when the value changes from outside (a new extraction, a reset).
-  useEffect(() => {
-    setDraft(value === null ? '' : String(value))
-  }, [value])
+  /*
+   * Re-sync when the value changes from outside: a new extraction, or a reset.
+   *
+   * The comparison is against what the draft *parses to*, not against the
+   * previous prop, because this field causes most of its own prop changes.
+   * Typing "17." commits 17, which is a changed prop, and a naive resync
+   * would rewrite the draft as "17" and eat the decimal point the moment it
+   * was typed. Number("17.") is 17, so the parsed draft already matches and
+   * the draft is left alone.
+   */
+  if (value !== seen) {
+    setSeen(value)
+    const asNumber = draft.trim() === '' ? null : Number(draft)
+    if (asNumber !== value) setDraft(value === null ? '' : String(value))
+  }
 
   return (
     <div className="field" data-flagged={flagged || undefined}>
@@ -68,7 +80,7 @@ function NumberField({
           }}
         />
       </div>
-      {flagged ? <p className="field-flag">We guessed this — please check it</p> : null}
+      {flagged ? <p className="field-flag">We guessed this. Please check it</p> : null}
       {hint ? <p className="field-hint">{hint}</p> : null}
     </div>
   )
@@ -86,7 +98,7 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
       <header className="editor-head">
         <h2 className="editor-title">Check what we read</h2>
         <div className="editor-badges">
-          {demo ? <span className="badge" data-kind="info">Example — no offer was read</span> : null}
+          {demo ? <span className="badge" data-kind="info">Example, no offer was read</span> : null}
           <span className="badge" data-kind={offer.confidence === 'high' ? 'ok' : 'warn'}>
             {offer.confidence} confidence
           </span>
@@ -94,7 +106,7 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
       </header>
 
       <p className="editor-intro">
-        Nothing is calculated until these are right. Correct anything that looks wrong — every
+        Nothing is calculated until these are right. Correct anything that looks wrong. Every
         figure below updates as you type.
       </p>
 
@@ -161,7 +173,7 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
             }
           >
             <option value="consumer_lease">Consumer lease or rent-to-own</option>
-            <option value="credit_contract">Credit contract — you own it</option>
+            <option value="credit_contract">Credit contract, you own it</option>
             <option value="bnpl">Buy now, pay later</option>
             <option value="unknown">Not sure</option>
           </select>
@@ -175,8 +187,8 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
       <div className="estimate">
         <h3 className="estimate-title">What it costs to just buy it</h3>
         <p className="estimate-note">
-          This is an <strong>estimate</strong>, not a quote — the single biggest source of error
-          here, and it drives the headline. If you know the real price, put it in.
+          This is an <strong>estimate</strong>, not a quote. It is the single biggest source of
+          error here, and it drives the headline. If you know the real price, put it in.
         </p>
         <div className="estimate-fields">
           <NumberField
