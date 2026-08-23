@@ -124,7 +124,7 @@ export function Landing({ onStart }: { onStart: () => void }) {
   const current = STEPS[active]
 
   return (
-    <div className="landing">
+    <div className="landing" id="how">
       <section className="stack" aria-labelledby="stack-title">
         <h2 className="section-title" id="stack-title">
           Do the multiplication

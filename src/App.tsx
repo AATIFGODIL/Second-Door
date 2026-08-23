@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Card } from './components/ui/Card'
+import { Hero } from './components/Hero'
 import { Intake } from './components/Intake'
 import { Landing } from './components/Landing'
 import { OfferEditor } from './components/OfferEditor'
@@ -8,16 +9,9 @@ import { assess } from './lib/assess'
 import { BLANK_OFFER } from './lib/blank-offer'
 import type { ExtractedOffer } from './lib/offer'
 import { HOME, isUnknownPath, navigate, useRoute } from './lib/router'
+import { scrollToId } from './lib/scroll'
 import './components/ui/controls.css'
 import './app.css'
-
-// prefers-reduced-motion kills CSS scroll-behavior but not a scripted smooth scroll.
-function scrollToTool() {
-  const target = document.getElementById('tool')
-  if (!target) return
-  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  target.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' })
-}
 
 function getInitialTheme(): 'light' | 'dark' {
   const saved = localStorage.getItem('sd_theme')
@@ -74,82 +68,86 @@ export default function App() {
         Skip to content
       </a>
 
-      <header className="masthead">
-        <div className="masthead-inner">
-          <div className="brand">
-            <img src="/favicon.svg" alt="Second Door Logo" className="brand-logo" width="32" height="32" />
-            <span className="wordmark">Second Door</span>
-          </div>
-          <div className="scroll-progress" aria-hidden="true" />
-          <div className="masthead-actions">
-            {route === '/offer' ? (
-              <button
-                type="button"
-                className="button masthead-cta"
-                data-variant="quiet"
-                onClick={restart}
-              >
-                Start again
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="button masthead-cta"
-                data-variant="primary"
-                data-size="compact"
-                onClick={scrollToTool}
-              >
-                Try it now
-              </button>
-            )}
-            <button
-              type="button"
-              className="theme-toggle"
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {theme === 'dark' ? (
-                <>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="5" />
-                    <line x1="12" y1="1" x2="12" y2="3" />
-                    <line x1="12" y1="21" x2="12" y2="23" />
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                    <line x1="1" y1="12" x2="3" y2="12" />
-                    <line x1="21" y1="12" x2="23" y2="12" />
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                  </svg>
-                  <span>Light</span>
-                </>
-              ) : (
-                <>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                  </svg>
-                  <span>Dark</span>
-                </>
-              )}
-            </button>
-          </div>
+      {route === HOME ? (
+        <div className="brandpill">
+          <img src="/favicon.svg" alt="" className="brandpill-logo" width="26" height="26" />
+          <span className="brandpill-name">Second Door</span>
         </div>
-      </header>
+      ) : (
+        <header className="masthead">
+          <div className="masthead-inner">
+            <div className="brand">
+              <img src="/favicon.svg" alt="Second Door Logo" className="brand-logo" width="32" height="32" />
+              <span className="wordmark">Second Door</span>
+            </div>
+            <div className="scroll-progress" aria-hidden="true" />
+            <div className="masthead-actions">
+              {route === '/offer' ? (
+                <button
+                  type="button"
+                  className="button masthead-cta"
+                  data-variant="quiet"
+                  onClick={restart}
+                >
+                  Start again
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="button masthead-cta"
+                  data-variant="primary"
+                  data-size="compact"
+                  onClick={() => scrollToId('tool')}
+                >
+                  Try it now
+                </button>
+              )}
+              <button
+                type="button"
+                className="theme-toggle"
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="5" />
+                      <line x1="12" y1="1" x2="12" y2="3" />
+                      <line x1="12" y1="21" x2="12" y2="23" />
+                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                      <line x1="1" y1="12" x2="3" y2="12" />
+                      <line x1="21" y1="12" x2="23" y2="12" />
+                      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                    <span>Light</span>
+                  </>
+                ) : (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                    </svg>
+                    <span>Dark</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </header>
+      )}
+
+      {route === HOME ? <Hero /> : null}
 
       <div className="shell">
         <main className="main" id="main">
           {route === HOME ? (
             <>
-              <section className="hero">
-                <h1 className="hero-title">
-                  Don't understand the loan? <em>Second Door</em> tells you what you'll actually pay in plain language.
-                </h1>
-                <p className="hero-sub">
-                  Show us a rent-to-own or lease offer. We work out what it really costs, and what
-                  the same thing costs at a genuine 0%.
-                </p>
-              </section>
+              <p className="tool-intro">
+                Show us a rent-to-own or lease offer. We work out what it really costs, and what
+                the same thing costs at a genuine 0%.
+              </p>
 
               <Intake
                 onRead={(next, _source, demo) => start(next, demo)}

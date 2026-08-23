@@ -1,0 +1,162 @@
+/* Full bleed, and always dark regardless of the theme toggle. The page
+   below it can be light; the hero is its own room. */
+.hero-full {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: min(92svh, 900px);
+  padding: var(--sp-9) var(--sp-5) var(--sp-8);
+  background: #000;
+  overflow: hidden;
+  text-align: center;
+}
+
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Softens the seam into the page below, which may be light. */
+.hero-full::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22%;
+  z-index: -1;
+  background: linear-gradient(to bottom, transparent, #000);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  /* Wide enough to keep each headline line unbroken at desktop sizes. */
+  max-width: min(92vw, 1100px);
+}
+
+.hero-headline {
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(2.75rem, 8.5vw, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.hero-headline-answer {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
+.hero-button {
+  min-height: 52px;
+  padding: 0 var(--sp-6);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  transition:
+    transform var(--response-fast) var(--ease-out),
+    background-color var(--response-fast) linear,
+    border-color var(--response-fast) linear;
+}
+
+.hero-button:active {
+  transform: scale(0.97);
+  transition-duration: 40ms;
+}
+
+.hero-button[data-variant='primary'] {
+  background: #fff;
+  color: #000;
+}
+
+.hero-button[data-variant='ghost'] {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.hero-button[data-variant='ghost']:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.hero-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+/* A mouse-style cue: it only means "there is more below". */
+.hero-cue {
+  position: absolute;
+  bottom: var(--sp-6);
+  width: 22px;
+  height: 34px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill);
+}
+
+.hero-cue::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  width: 3px;
+  height: 7px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.7);
+  animation: hero-cue 2.1s ease-in-out infinite;
+}
+
+@keyframes hero-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(11px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cue::after {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-full {
+    min-height: 88svh;
+  }
+
+  .hero-button {
+    width: 100%;
+    max-width: 20rem;
+  }
+}
