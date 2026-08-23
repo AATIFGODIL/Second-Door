@@ -31,7 +31,7 @@ export const EXAMPLES: Example[] = [
     id: 'washing-machine',
     label: 'Washing machine',
     teaches: 'Lawful, and still costs 72% more than the machine',
-    text: `EASYHOME RENTALS — NO CREDIT CHECKS!
+    text: `EASYHOME RENTALS. NO CREDIT CHECKS!
 8kg front loader washing machine
 ONLY $17.64 PER WEEK
 78 week term. Free delivery.
@@ -56,7 +56,7 @@ Dishonour fee $9.90 applies to missed payments.`,
     label: 'Laptop',
     teaches: 'Total lands above the s175AA cap',
     text: `RENT-2-OWN TECH
-Student laptop bundle — 15" laptop, case and mouse
+Student laptop bundle: 15" laptop, case and mouse
 $32 a week for 2 years
 No deposit. No credit check. Own it at the end of the term.
 Establishment fee $99. Late payment fee $12.`,
@@ -77,7 +77,7 @@ Establishment fee $99. Late payment fee $12.`,
   {
     id: 'phone-bnpl',
     label: 'Phone on buy-now-pay-later',
-    teaches: 'A genuine 0% — the comparison has to be able to say so',
+    teaches: 'A genuine 0%, and the comparison has to be able to say so',
     text: `Pay in 4 with SplitPay
 Smartphone, 128GB
 4 fortnightly payments of $224.75

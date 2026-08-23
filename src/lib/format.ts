@@ -40,7 +40,7 @@ export function rate(result: RateResult): string {
     case 'above_ceiling':
       return 'Off the scale'
     case 'no_solution':
-      return 'No rate — this offer costs less than the cash price'
+      return 'No rate. This offer costs less than the cash price'
     case 'invalid':
       return 'Not calculable'
   }
