@@ -1,5 +1,6 @@
-/* Full bleed, and always dark regardless of the theme toggle. The page
-   below it can be light; the hero is its own room. */
+/* Full bleed, and it paints its own ground rather than inheriting --bg:
+   this is a panel with large type over artwork and it needs more contrast
+   than the page around it. Its palette lives in tokens.css. */
 .hero-full {
   position: relative;
   isolation: isolate;
@@ -7,17 +8,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: min(92svh, 900px);
-  padding: var(--sp-9) var(--sp-5) var(--sp-8);
-  background: #000;
+  min-height: 100svh;
+  /* The masthead is sticky and therefore in flow. Pull the hero up under
+     it and pad the content back down, so the hero is a full screen and
+     nothing from the page below is visible before you scroll. */
+  margin-top: calc(-1 * var(--masthead-h));
+  padding: calc(var(--masthead-h) + var(--sp-5)) var(--sp-5) var(--sp-7);
+  background: var(--hero-bg);
   overflow: hidden;
   text-align: center;
-}
-
-.hero-canvas {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
 }
 
 /* Softens the seam into the page below, which may be light. */
@@ -29,7 +28,7 @@
   bottom: 0;
   height: 22%;
   z-index: -1;
-  background: linear-gradient(to bottom, transparent, #000);
+  background: linear-gradient(to bottom, transparent, var(--hero-bg));
 }
 
 .hero-content {
@@ -48,12 +47,12 @@
   line-height: 1.02;
   letter-spacing: -0.035em;
   font-weight: 700;
-  color: #fff;
+  color: var(--hero-ink);
   text-wrap: balance;
 }
 
 .hero-headline-answer {
-  color: rgba(255, 255, 255, 0.62);
+  color: inherit;
 }
 
 .hero-actions {
@@ -84,24 +83,24 @@
 }
 
 .hero-button[data-variant='primary'] {
-  background: #fff;
-  color: #000;
+  background: var(--hero-btn-bg);
+  color: var(--hero-btn-ink);
 }
 
 .hero-button[data-variant='ghost'] {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.22);
-  color: #fff;
+  background: var(--hero-ghost-bg);
+  border-color: var(--hero-ghost-border);
+  color: var(--hero-ink);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
 .hero-button[data-variant='ghost']:hover {
-  background: rgba(255, 255, 255, 0.14);
+  background: var(--hero-ghost-hover);
 }
 
 .hero-button:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--hero-ink);
   outline-offset: 3px;
 }
 
@@ -111,7 +110,7 @@
   bottom: var(--sp-6);
   width: 22px;
   height: 34px;
-  border: 2px solid rgba(255, 255, 255, 0.35);
+  border: 2px solid var(--hero-cue);
   border-radius: var(--radius-pill);
 }
 
@@ -124,7 +123,7 @@
   height: 7px;
   margin-left: -1.5px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--hero-cue-dot);
   animation: hero-cue 2.1s ease-in-out infinite;
 }
 
@@ -152,7 +151,7 @@
 
 @media (max-width: 560px) {
   .hero-full {
-    min-height: 88svh;
+    min-height: 100svh;
   }
 
   .hero-button {

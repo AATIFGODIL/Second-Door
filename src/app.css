@@ -391,46 +391,18 @@
   scroll-margin-top: 4.5rem;
 }
 
-/* ---- Brand pill -------------------------------------------------------
-   The landing page drops the bar entirely. All that survives is the mark
-   and the name, floating over the hero. Fixed rather than absolute so
-   the product still identifies itself once you scroll past the hero. */
-.brandpill {
-  position: fixed;
-  top: var(--sp-4);
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-3) var(--sp-5);
-  border-radius: var(--radius-pill);
-  background: rgba(22, 22, 24, 0.62);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  box-shadow: 0 8px 30px -12px rgba(0, 0, 0, 0.7);
-}
-
-.brandpill-logo {
-  display: block;
-}
-
-.brandpill-name {
-  font-size: var(--size-body);
+/* ---- Tool intro -------------------------------------------------------
+   The line the hero used to carry. It now sits directly above the card
+   it describes, where it does more work. */
+.tool-intro {
+  font-size: clamp(1.375rem, 3.2vw, 2rem);
+  line-height: 1.25;
+  letter-spacing: -0.021em;
   font-weight: 600;
-  letter-spacing: -0.014em;
-  color: #fff;
-  white-space: nowrap;
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  .brandpill {
-    background: #161618;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+  color: var(--text);
+  max-width: none;
+  text-align: left;
+  text-wrap: pretty;
 }
 
 /* ---- Tool intro -------------------------------------------------------
@@ -442,6 +414,7 @@
   letter-spacing: -0.021em;
   font-weight: 600;
   color: var(--text);
-  max-width: 24ch;
-  text-wrap: balance;
+  max-width: none;
+  text-align: left;
+  text-wrap: pretty;
 }

@@ -122,6 +122,9 @@
   --radius-lg: 18px;
   --radius-pill: 999px;
 
+  /* Both masthead states settle at this height. */
+  --masthead-h: 68px;
+
   --measure: 66ch;
   --shell: 1060px;
 
@@ -271,4 +274,76 @@ html[data-theme='dark'] {
     --text-secondary: var(--grey-800);
     --text-tertiary: var(--grey-700);
   }
+}
+
+/* ---- Hero ---------------------------------------------------------------
+   The hero paints its own ground rather than inheriting --bg, because it is
+   a full-bleed panel with white type over artwork and needs more contrast
+   than the page around it. Same three-way pattern as the tokens above:
+   light by default, dark under the system preference, and both overridable
+   by an explicit data-theme. */
+:root {
+  --hero-bg: #ffffff;
+  --hero-ink: #0b0b0e;
+  --hero-ink-soft: rgba(11, 11, 14, 0.62);
+  --hero-btn-bg: #101013;
+  --hero-btn-ink: #ffffff;
+  --hero-ghost-bg: rgba(0, 0, 0, 0.04);
+  --hero-ghost-border: rgba(0, 0, 0, 0.14);
+  --hero-ghost-hover: rgba(0, 0, 0, 0.08);
+  --hero-cue: rgba(0, 0, 0, 0.32);
+  --hero-cue-dot: rgba(0, 0, 0, 0.55);
+  --hero-tint: rgba(52, 199, 89, 0.2);
+  --hero-icon-red: 0.42;
+  --hero-icon-green: 0.44;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hero-bg: #000000;
+    --hero-ink: #ffffff;
+    --hero-ink-soft: rgba(255, 255, 255, 0.62);
+    --hero-btn-bg: #ffffff;
+    --hero-btn-ink: #000000;
+    --hero-ghost-bg: rgba(255, 255, 255, 0.08);
+    --hero-ghost-border: rgba(255, 255, 255, 0.22);
+    --hero-ghost-hover: rgba(255, 255, 255, 0.14);
+    --hero-cue: rgba(255, 255, 255, 0.35);
+    --hero-cue-dot: rgba(255, 255, 255, 0.7);
+    --hero-tint: rgba(52, 199, 89, 0.16);
+    --hero-icon-red: 0.55;
+    --hero-icon-green: 0.58;
+  }
+}
+
+html[data-theme='light'] {
+  --hero-bg: #ffffff;
+  --hero-ink: #0b0b0e;
+  --hero-ink-soft: rgba(11, 11, 14, 0.62);
+  --hero-btn-bg: #101013;
+  --hero-btn-ink: #ffffff;
+  --hero-ghost-bg: rgba(0, 0, 0, 0.04);
+  --hero-ghost-border: rgba(0, 0, 0, 0.14);
+  --hero-ghost-hover: rgba(0, 0, 0, 0.08);
+  --hero-cue: rgba(0, 0, 0, 0.32);
+  --hero-cue-dot: rgba(0, 0, 0, 0.55);
+  --hero-tint: rgba(52, 199, 89, 0.2);
+  --hero-icon-red: 0.42;
+  --hero-icon-green: 0.44;
+}
+
+html[data-theme='dark'] {
+  --hero-bg: #000000;
+  --hero-ink: #ffffff;
+  --hero-ink-soft: rgba(255, 255, 255, 0.62);
+  --hero-btn-bg: #ffffff;
+  --hero-btn-ink: #000000;
+  --hero-ghost-bg: rgba(255, 255, 255, 0.08);
+  --hero-ghost-border: rgba(255, 255, 255, 0.22);
+  --hero-ghost-hover: rgba(255, 255, 255, 0.14);
+  --hero-cue: rgba(255, 255, 255, 0.35);
+  --hero-cue-dot: rgba(255, 255, 255, 0.7);
+  --hero-tint: rgba(52, 199, 89, 0.16);
+  --hero-icon-red: 0.55;
+  --hero-icon-green: 0.58;
 }

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Card } from './components/ui/Card'
 import { Hero } from './components/Hero'
 import { Intake } from './components/Intake'
@@ -36,6 +36,26 @@ export default function App() {
 
   const result = useMemo(() => assess(offer), [offer])
 
+  /*
+   * Publish the masthead's real height so the hero can size itself to one
+   * exact screen. Not the padding sum: the action buttons contribute their
+   * own height, and a hardcoded guess left the page below peeking under
+   * the fold.
+   */
+  const masthead = useRef<HTMLElement>(null)
+  useEffect(() => {
+    const el = masthead.current
+    if (!el) return
+    const publish = () =>
+      document.documentElement.style.setProperty(
+        '--masthead-h',
+        `${Math.round(el.getBoundingClientRect().height)}px`,
+      )
+    publish()
+    const observer = new ResizeObserver(publish)
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
   // The offer lives in memory, so /offer means nothing on a cold load. Not
   // encoded in the URL: the affordability figures are the user's own income
   // and expenses and do not belong in an address bar or a referrer header.
@@ -68,75 +88,68 @@ export default function App() {
         Skip to content
       </a>
 
-      {route === HOME ? (
-        <div className="brandpill">
-          <img src="/favicon.svg" alt="" className="brandpill-logo" width="26" height="26" />
-          <span className="brandpill-name">Second Door</span>
-        </div>
-      ) : (
-        <header className="masthead">
-          <div className="masthead-inner">
-            <div className="brand">
-              <img src="/favicon.svg" alt="Second Door Logo" className="brand-logo" width="32" height="32" />
-              <span className="wordmark">Second Door</span>
-            </div>
-            <div className="scroll-progress" aria-hidden="true" />
-            <div className="masthead-actions">
-              {route === '/offer' ? (
-                <button
-                  type="button"
-                  className="button masthead-cta"
-                  data-variant="quiet"
-                  onClick={restart}
-                >
-                  Start again
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="button masthead-cta"
-                  data-variant="primary"
-                  data-size="compact"
-                  onClick={() => scrollToId('tool')}
-                >
-                  Try it now
-                </button>
-              )}
+      <header className="masthead" ref={masthead}>
+        <div className="masthead-inner">
+          <div className="brand">
+            <img src="/favicon.svg" alt="Second Door Logo" className="brand-logo" width="32" height="32" />
+            <span className="wordmark">Second Door</span>
+          </div>
+          <div className="scroll-progress" aria-hidden="true" />
+          <div className="masthead-actions">
+            {route === '/offer' ? (
               <button
                 type="button"
-                className="theme-toggle"
-                onClick={toggleTheme}
-                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="button masthead-cta"
+                data-variant="quiet"
+                onClick={restart}
               >
-                {theme === 'dark' ? (
-                  <>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="12" cy="12" r="5" />
-                      <line x1="12" y1="1" x2="12" y2="3" />
-                      <line x1="12" y1="21" x2="12" y2="23" />
-                      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                      <line x1="1" y1="12" x2="3" y2="12" />
-                      <line x1="21" y1="12" x2="23" y2="12" />
-                      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                    </svg>
-                    <span>Light</span>
-                  </>
-                ) : (
-                  <>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                    </svg>
-                    <span>Dark</span>
-                  </>
-                )}
+                Start again
               </button>
-            </div>
+            ) : (
+              <button
+                type="button"
+                className="button masthead-cta"
+                data-variant="primary"
+                data-size="compact"
+                onClick={() => scrollToId('tool')}
+              >
+                Try it now
+              </button>
+            )}
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                  </svg>
+                  <span>Light</span>
+                </>
+              ) : (
+                <>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                  </svg>
+                  <span>Dark</span>
+                </>
+              )}
+            </button>
           </div>
-        </header>
-      )}
+        </div>
+      </header>
 
       {route === HOME ? <Hero /> : null}
 

@@ -1,38 +1,11 @@
-import { lazy, Suspense } from 'react'
+import { HeroBackground } from './HeroBackground'
 import { scrollToId } from '../lib/scroll'
 import './hero.css'
-
-// three + postprocessing is ~130KB gzipped, more than the rest of the app put
-// together. Split it out so the headline and buttons paint immediately; the
-// field arrives when it arrives, and the hero works without it.
-const PixelBlast = lazy(() => import('./vendor/PixelBlast'))
 
 export function Hero() {
   return (
     <section className="hero-full">
-      <div className="hero-canvas">
-        <Suspense fallback={null}>
-          <PixelBlast
-            variant="square"
-            pixelSize={4}
-            color="#FF3B30"
-            patternScale={2}
-            patternDensity={1}
-            pixelSizeJitter={0}
-            enableRipples
-            rippleSpeed={0.4}
-            rippleThickness={0.12}
-            rippleIntensityScale={1.5}
-            liquid={false}
-            liquidStrength={0.12}
-            liquidRadius={1.2}
-            liquidWobbleSpeed={5}
-            speed={0.3}
-            edgeFade={0.25}
-            transparent
-          />
-        </Suspense>
-      </div>
+      <HeroBackground />
 
       <div className="hero-content">
         <h1 className="hero-headline">

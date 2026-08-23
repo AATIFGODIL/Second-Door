@@ -1,0 +1,74 @@
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* A pool of green behind the headline. The second door is the one the
+   page is arguing for, so the light in the middle is its colour. */
+.hero-tint {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: min(120vw, 1200px);
+  height: min(90svh, 780px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at center,
+    var(--hero-tint),
+    color-mix(in srgb, var(--hero-tint) 35%, transparent) 45%,
+    transparent 70%
+  );
+  filter: blur(40px);
+}
+
+.hero-icon {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(var(--rotate, 0deg));
+  animation: hero-float 14s ease-in-out infinite alternate;
+}
+
+.hero-icon[data-tone='red'] {
+  color: #ff5147;
+  opacity: var(--hero-icon-red);
+}
+
+.hero-icon[data-tone='green'] {
+  color: #3fd968;
+  opacity: var(--hero-icon-green);
+}
+
+/* Slow enough to read as drift rather than motion, and well under the
+   0.2Hz band that causes trouble. */
+@keyframes hero-float {
+  to {
+    transform: translate(-50%, calc(-50% - 14px)) rotate(var(--rotate, 0deg));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-icon {
+    animation: none;
+  }
+}
+
+/* Below the headline width the side columns crowd the text, so thin the
+   field out rather than shrinking everything. */
+/* Closer in means they crowd the headline on a narrow screen, so scale
+   them down and pull the opacity back rather than moving them. */
+@media (max-width: 720px) {
+  .hero-icon {
+    scale: 0.62;
+  }
+
+  .hero-icon[data-tone='red'] {
+    opacity: calc(var(--hero-icon-red) * 0.62);
+  }
+
+  .hero-icon[data-tone='green'] {
+    opacity: calc(var(--hero-icon-green) * 0.62);
+  }
+}
