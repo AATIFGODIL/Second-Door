@@ -1,6 +1,6 @@
 # Second Door
 
-[![tests](https://github.com/AATIFGODIL/second-door/actions/workflows/test.yml/badge.svg)](https://github.com/AATIFGODIL/second-door/actions/workflows/test.yml)
+[![tests](https://github.com/AATIFGODIL/Second-Door/actions/workflows/test.yml/badge.svg)](https://github.com/AATIFGODIL/Second-Door/actions/workflows/test.yml)
 
 **Melbourne Hack 2026, Track 3, Financial Inclusion**
 
