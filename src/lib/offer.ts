@@ -1,5 +1,5 @@
 import * as z from 'zod'
-import type { Frequency } from './finance'
+import type { Frequency } from './finance.js'
 
 export const ExtractedOffer = z.object({
   item: z

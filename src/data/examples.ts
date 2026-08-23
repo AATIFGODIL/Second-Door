@@ -1,4 +1,4 @@
-import type { ExtractedOffer } from '../lib/offer'
+import type { ExtractedOffer } from '../lib/offer.js'
 
 export type Example = {
   id: string

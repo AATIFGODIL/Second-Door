@@ -1,8 +1,8 @@
 import { GoogleGenAI, ApiError, ThinkingLevel } from '@google/genai'
 import * as z from 'zod'
-import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer'
-import { matchExample } from '../src/data/examples'
-import { checkRate } from './_ratelimit'
+import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer.js'
+import { matchExample } from '../src/data/examples.js'
+import { checkRate } from './_ratelimit.js'
 
 const MODEL = 'gemini-3.5-flash-lite'
 

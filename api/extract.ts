@@ -1,6 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
-import { handleExtract } from './_core'
-import { clientIp } from './_ratelimit'
+import { handleExtract } from './_core.js'
+import { clientIp } from './_ratelimit.js'
 
 const MAX_BODY_BYTES = 6 * 1024 * 1024
 
