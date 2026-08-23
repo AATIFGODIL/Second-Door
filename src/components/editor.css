@@ -1,0 +1,151 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.editor-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.editor-title {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.editor-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.badge {
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--radius-pill);
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.badge[data-kind='ok'] {
+  background: var(--green-wash);
+  color: var(--green-text);
+}
+
+.badge[data-kind='warn'] {
+  background: var(--amber-wash);
+  color: var(--amber-text);
+}
+
+.badge[data-kind='info'] {
+  background: var(--bg-sunken);
+  color: var(--text-secondary);
+}
+
+.editor-intro {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.editor-grid {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 620px) {
+  .editor-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .editor-wide {
+    grid-column: 1 / -1;
+  }
+}
+
+/* A currency field reads as one control with the unit attached, rather
+   than a number the user has to remember is dollars. */
+.input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-prefix {
+  position: absolute;
+  left: var(--sp-4);
+  color: var(--text-tertiary);
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.input-wrap[data-prefix] .input {
+  padding-left: calc(var(--sp-4) + 0.85em);
+}
+
+/* ---- The estimate ---------------------------------------------------
+   Set into the card rather than raised, because this block is the one
+   thing on the screen we are actively asking the user to correct. */
+.estimate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  background: var(--bg-sunken);
+  border-radius: var(--radius);
+}
+
+.estimate-title {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.estimate-note {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}
+
+.estimate-note strong {
+  color: var(--text);
+}
+
+.estimate-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  max-width: 24rem;
+}
+
+/* ---- Fees ------------------------------------------------------------ */
+.fees {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.fees-title {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.fees-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  margin: 0;
+  padding-left: var(--sp-5);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  color: var(--text-secondary);
+}

@@ -1,0 +1,130 @@
+/*
+ * Buttons and fields.
+ *
+ * Press feedback fires on pointer-down and is near-instant. The moment
+ * acknowledgement waits for the click event, directness falls off a
+ * cliff, and this is a product people use while standing in a shop.
+ */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-5);
+  min-height: 44px; /* thumb-sized, not pointer-sized */
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: center;
+  transition:
+    transform var(--response-fast) var(--ease-out),
+    background-color var(--response-fast) linear,
+    opacity var(--response-fast) linear;
+}
+
+.button:active {
+  transform: scale(0.97);
+  transition-duration: 40ms;
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+  transform: none;
+}
+
+.button[data-variant='primary'] {
+  background: var(--text);
+  color: var(--bg-raised);
+}
+
+.button[data-variant='secondary'] {
+  background: var(--bg-raised);
+  border-color: var(--hairline-strong);
+  color: var(--text);
+}
+
+.button[data-variant='quiet'] {
+  background: transparent;
+  color: var(--text-secondary);
+  padding-inline: var(--sp-3);
+  min-height: 36px;
+  font-weight: 500;
+}
+
+.button[data-variant='quiet']:hover {
+  color: var(--text);
+}
+
+/* ---- Fields --------------------------------------------------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 0;
+}
+
+.field-label {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: var(--sp-3) var(--sp-4);
+  min-height: 44px;
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius);
+  font-size: var(--size-body);
+  color: var(--text);
+  transition: border-color var(--response-fast) linear;
+}
+
+.input:hover,
+.select:hover,
+.textarea:hover {
+  border-color: var(--text-tertiary);
+}
+
+.textarea {
+  min-height: 8.5rem;
+  resize: vertical;
+  line-height: var(--leading-body);
+  font-family: inherit;
+}
+
+/* Numerals in an editable field still must not jitter as they change. */
+.input[inputmode='decimal'],
+.input[inputmode='numeric'] {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* A field the model guessed at. Amber marks "check this", not "error" —
+   nothing is wrong yet, but nobody has confirmed it either. */
+.field[data-flagged='true'] .input,
+.field[data-flagged='true'] .select {
+  border-color: var(--amber-fill);
+  background: var(--amber-wash);
+}
+
+.field-flag {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  color: var(--amber-text);
+  font-weight: 500;
+}
+
+.field-hint {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}

@@ -13,9 +13,9 @@
 
 import { GoogleGenAI, ApiError, ThinkingLevel } from '@google/genai'
 import * as z from 'zod'
-import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer'
-import { matchExample } from '../src/data/examples'
-import { checkRate } from './_ratelimit'
+import { ExtractedOffer, type ExtractResponse } from '../src/lib/offer.ts'
+import { matchExample } from '../src/data/examples.ts'
+import { checkRate } from './_ratelimit.ts'
 
 /**
  * Flash-Lite is the cheap tier, and reading a payment amount off an ad does

@@ -13,7 +13,7 @@
  * have no basis to make.
  */
 
-import type { ExtractedOffer } from '../lib/offer'
+import type { ExtractedOffer } from '../lib/offer.ts'
 
 export type Example = {
   id: string

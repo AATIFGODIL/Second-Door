@@ -58,6 +58,16 @@
   color: var(--text-secondary);
 }
 
+.masthead-reset {
+  margin-left: auto;
+}
+
+@media (max-width: 560px) {
+  .masthead-note {
+    display: none;
+  }
+}
+
 /* ---- Shell ---------------------------------------------------------- */
 .shell {
   display: flex;
@@ -90,20 +100,26 @@
   gap: var(--sp-5);
 }
 
-.eyebrow {
-  font-size: var(--size-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text-tertiary);
-}
-
 .hero-title {
   font-size: var(--size-title);
   line-height: var(--leading-title);
   letter-spacing: var(--track-title);
   font-weight: 600;
-  max-width: 24ch;
+  max-width: 22ch;
+}
+
+/* The quoted instalment, marked as the thing being contradicted. Colour
+   only — the emphasis is semantic, so it must not rely on colour alone,
+   and the sentence around it already carries the meaning. */
+.hero-title em {
+  font-style: normal;
+  color: var(--red-text);
+}
+
+.hero-sub {
+  font-size: var(--size-body);
+  color: var(--text-secondary);
+  max-width: 46ch;
 }
 
 /* ---- The reveal ------------------------------------------------------

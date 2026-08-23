@@ -1,0 +1,129 @@
+.intake {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.intake-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+/* ---- Dropzone -------------------------------------------------------
+   A real target, not a decorated border. It stays visible rather than
+   appearing on drag, because on a phone there is no drag — the button
+   inside it is the actual path most people take. */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-5);
+  border: 1px dashed var(--hairline-strong);
+  border-radius: var(--radius);
+  background: var(--bg-sunken);
+  text-align: center;
+  transition:
+    border-color var(--response-fast) linear,
+    background-color var(--response-fast) linear;
+}
+
+.dropzone[data-dragging] {
+  border-color: var(--blue-fill);
+  border-style: solid;
+  background: var(--bg-raised);
+}
+
+.dropzone-text {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  color: var(--text-secondary);
+}
+
+.intake-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.intake-error {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--red-text);
+}
+
+.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ---- Examples -------------------------------------------------------- */
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.examples-title {
+  font-size: var(--size-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.examples-row {
+  display: grid;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 700px) {
+  .examples-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-4);
+  text-align: left;
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  transition:
+    transform var(--response-fast) var(--ease-out),
+    border-color var(--response-fast) linear;
+}
+
+.example:hover {
+  border-color: var(--text-tertiary);
+}
+
+.example:active {
+  transform: scale(0.985);
+  transition-duration: 40ms;
+}
+
+.example-label {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.example-teaches {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}

@@ -1,38 +1,28 @@
+import { useMemo, useState } from 'react'
 import { Card, Figure } from './components/ui/Card'
-import { assessLeaseCap } from './lib/cap'
-import { effectiveAnnualRate, extraOverCash, PERIODS_PER_YEAR, totalPaid } from './lib/finance'
+import { BLANK_OFFER, Intake } from './components/Intake'
+import { OfferEditor } from './components/OfferEditor'
+import { assess } from './lib/assess'
 import { money, moneyExact, rate, term } from './lib/format'
+import type { ExtractedOffer } from './lib/offer'
+import './components/ui/controls.css'
 import './app.css'
 
-/*
- * The worked example from the README, computed live rather than typed in.
- * Nothing on this screen is a hardcoded figure: change a field here and every
- * number below moves, including the cap assessment.
- */
-const OFFER = {
-  item: 'Washing machine',
-  cashPrice: 800,
-  payment: 17.64,
-  frequency: 'weekly',
-  termWeeks: 78,
-} as const
-
-const total = totalPaid(OFFER.payment, OFFER.termWeeks)
-const extra = extraOverCash(total, OFFER.cashPrice)
-const annual = effectiveAnnualRate(
-  OFFER.cashPrice,
-  OFFER.payment,
-  PERIODS_PER_YEAR[OFFER.frequency],
-  OFFER.termWeeks,
-)
-const cap = assessLeaseCap({
-  totalPaid: total,
-  basePriceHigh: OFFER.cashPrice,
-  frequency: OFFER.frequency,
-  termPeriods: OFFER.termWeeks,
-})
+type Stage = { name: 'intake' } | { name: 'reviewing'; demo: boolean }
 
 export default function App() {
+  const [stage, setStage] = useState<Stage>({ name: 'intake' })
+  const [offer, setOffer] = useState<ExtractedOffer>(BLANK_OFFER)
+
+  // Every figure on the screen comes from here, recomputed on each edit.
+  const result = useMemo(() => assess(offer), [offer])
+
+  function start(next: ExtractedOffer, demo: boolean) {
+    setOffer(next)
+    setStage({ name: 'reviewing', demo })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <>
       <a className="skip" href="#main">
@@ -43,110 +33,57 @@ export default function App() {
         <div className="masthead-inner">
           <span className="wordmark">Second Door</span>
           <span className="masthead-note">A calculator and a directory</span>
+          {stage.name === 'reviewing' ? (
+            <button
+              type="button"
+              className="button masthead-reset"
+              data-variant="quiet"
+              onClick={() => {
+                setOffer(BLANK_OFFER)
+                setStage({ name: 'intake' })
+              }}
+            >
+              Start again
+            </button>
+          ) : null}
         </div>
       </header>
 
       <div className="shell">
         <main className="main" id="main">
-          <section className="hero">
-            <p className="eyebrow">Worked example</p>
-            <h1 className="hero-title">
-              The offer says {moneyExact(OFFER.payment)} a week. It does not say what that adds
-              up to.
-            </h1>
+          {stage.name === 'intake' ? (
+            <>
+              <section className="hero">
+                <h1 className="hero-title">
+                  It says <em>$20 a week</em>. It does not say what that adds up to.
+                </h1>
+                <p className="hero-sub">
+                  Show us a rent-to-own or lease offer. We work out what it really costs, and what
+                  the same thing costs at a genuine 0%.
+                </p>
+              </section>
 
-            <Card className="reveal" elevation={2} pad={false}>
-              <div className="reveal-main">
-                <Figure
-                  scale="display"
-                  signal="bad"
-                  label={`Total paid over ${OFFER.termWeeks} weeks`}
-                  value={money(total)}
-                />
-              </div>
-              <dl className="reveal-breakdown">
-                <div className="breakdown-row">
-                  <dt>{OFFER.item}, cash price</dt>
-                  <dd className="num">{money(OFFER.cashPrice)}</dd>
-                </div>
-                <div className="breakdown-row">
-                  <dt>Extra paid over the cash price</dt>
-                  <dd className="num" data-signal="bad">
-                    {money(extra)}
-                  </dd>
-                </div>
-                <div className="breakdown-row">
-                  <dt>Effective annual rate</dt>
-                  <dd className="num" data-signal="bad">
-                    {rate(annual)}
-                  </dd>
-                </div>
-                <div className="breakdown-row">
-                  <dt>Term</dt>
-                  <dd className="num">{term(OFFER.termWeeks)}</dd>
-                </div>
-              </dl>
-            </Card>
-          </section>
-
-          <section className="doors" aria-label="The two options side by side">
-            <Card className="door">
-              <h2 className="door-title">The offer you were shown</h2>
-              <p className="door-body">
-                A consumer lease. You pay {moneyExact(OFFER.payment)} a week for{' '}
-                {OFFER.termWeeks} weeks. At the end of it the provider still owns the machine
-                unless the contract says otherwise.
-              </p>
-              <Figure label="You pay" value={money(total)} signal="bad" />
-            </Card>
-
-            <Card className="door">
-              <h2 className="door-title">The one nobody advertises</h2>
-              <p className="door-body">
-                The No Interest Loan Scheme. The same {money(OFFER.cashPrice)} purchase, repaid
-                at 0%, through a community provider. No fees, no interest, no charges.
-              </p>
-              <Figure label="You pay" value={money(OFFER.cashPrice)} signal="good" />
-            </Card>
-          </section>
-
-          {cap.kind === 'appears_over' ? (
-            <Card className="notice" data-kind="warn">
-              <h2 className="notice-title">This offer appears to exceed the legal cap</h2>
-              <p className="notice-body">
-                Section 175AA of the National Credit Code caps a consumer lease at the base
-                price plus 4% of the base price for each whole month of the term. On{' '}
-                {money(OFFER.cashPrice)} over {cap.months} months that is {money(cap.cap)}. This
-                offer totals {money(total)} — {money(cap.excess)} above it.
-              </p>
-              <p className="notice-foot">
-                Arithmetic on an estimated retail price, not a legal finding. If this looks
-                right to you, AFCA and ASIC both take complaints.
-              </p>
-            </Card>
+              <Intake
+                onRead={(next, _source, demo) => start(next, demo)}
+                onManual={() => start(BLANK_OFFER, false)}
+              />
+            </>
           ) : (
-            <Card className="notice">
-              <h2 className="notice-title">Within the legal cap</h2>
-              <p className="notice-body">
-                Section 175AA permits up to {money(cap.kind === 'within' ? cap.cap : 0)} on this
-                base price and term. This offer totals {money(total)}, which is inside it.
-                Lawful and expensive are not the same thing.
-              </p>
-            </Card>
-          )}
+            <>
+              <OfferEditor offer={offer} onChange={setOffer} demo={stage.demo} />
 
-          <section className="upcoming" aria-labelledby="upcoming-title">
-            <h2 className="upcoming-title" id="upcoming-title">
-              Not built yet
-            </h2>
-            <ul className="upcoming-list">
-              <li>Reading an offer from a photo or pasted text</li>
-              <li>Editing the estimated cash price, with every figure recomputing</li>
-              <li>Plain-language explanations of the terms in the contract</li>
-              <li>NILS eligibility check and provider lookup</li>
-              <li>Read-aloud</li>
-            </ul>
-          </section>
+              {result.computable ? (
+                <Results offer={offer} result={result} />
+              ) : (
+                <Card className="notice">
+                  <h2 className="notice-title">Nearly there</h2>
+                  <p className="notice-body">
+                    Add {result.missing.join(', ')} above and the figures will appear here.
+                  </p>
+                </Card>
+              )}
+            </>
+          )}
         </main>
 
         <footer className="colophon">
@@ -161,6 +98,137 @@ export default function App() {
           </p>
         </footer>
       </div>
+    </>
+  )
+}
+
+function Results({
+  offer,
+  result,
+}: {
+  offer: ExtractedOffer
+  result: ReturnType<typeof assess>
+}) {
+  const total = result.total as number
+  const cash = result.cashPriceMid as number
+  const extra = result.extra as number
+  const { cap } = result
+
+  return (
+    <>
+      <Card className="reveal" elevation={2} pad={false}>
+        <div className="reveal-main">
+          <Figure
+            scale="display"
+            signal={extra > 0 ? 'bad' : 'none'}
+            label={`Total paid over ${offer.termPeriods} payments`}
+            value={money(total)}
+          />
+        </div>
+        <dl className="reveal-breakdown">
+          <div className="breakdown-row">
+            <dt>{offer.item.trim() || 'The item'}, estimated cash price</dt>
+            <dd className="num">{money(cash)}</dd>
+          </div>
+          <div className="breakdown-row">
+            <dt>Extra paid over the cash price</dt>
+            <dd className="num" data-signal={extra > 0 ? 'bad' : undefined}>
+              {extra > 0 ? money(extra) : 'Nothing'}
+            </dd>
+          </div>
+          <div className="breakdown-row">
+            <dt>Effective annual rate</dt>
+            <dd className="num" data-signal={extra > 0 ? 'bad' : undefined}>
+              {result.rate ? rate(result.rate) : '—'}
+            </dd>
+          </div>
+          <div className="breakdown-row">
+            <dt>Each payment</dt>
+            <dd className="num">
+              {moneyExact(offer.payment)} {offer.frequency}
+            </dd>
+          </div>
+          {offer.frequency === 'weekly' ? (
+            <div className="breakdown-row">
+              <dt>Term</dt>
+              <dd className="num">{term(offer.termPeriods)}</dd>
+            </div>
+          ) : null}
+        </dl>
+      </Card>
+
+      <section className="doors" aria-label="The two options side by side">
+        <Card className="door">
+          <h2 className="door-title">The offer you were shown</h2>
+          <p className="door-body">
+            {moneyExact(offer.payment)} {offer.frequency}, {offer.termPeriods} times.
+            {offer.contractType === 'consumer_lease'
+              ? ' A consumer lease — the provider owns it until the contract says otherwise.'
+              : ''}
+          </p>
+          <Figure label="You pay" value={money(total)} signal={extra > 0 ? 'bad' : 'none'} />
+        </Card>
+
+        <Card className="door">
+          <h2 className="door-title">The one nobody advertises</h2>
+          <p className="door-body">
+            The No Interest Loan Scheme. The same purchase, repaid at 0% through a community
+            provider. No interest, no fees, no charges. It takes an appointment and a few days.
+          </p>
+          <Figure label="You pay" value={money(cash)} signal="good" />
+        </Card>
+      </section>
+
+      {cap?.kind === 'appears_over' ? (
+        <Card className="notice" data-kind="warn">
+          <h2 className="notice-title">This offer appears to exceed the legal cap</h2>
+          <p className="notice-body">
+            Section 175AA of the National Credit Code caps a consumer lease at the base price plus
+            4% of the base price for each whole month of the term. Over {cap.months} months that is{' '}
+            {money(cap.cap)}. This offer totals {money(total)} — {money(cap.excess)} above it.
+          </p>
+          <p className="notice-foot">
+            This is arithmetic on an estimated price, not a legal finding. AFCA and ASIC both take
+            complaints about consumer leases.
+          </p>
+        </Card>
+      ) : null}
+
+      {cap?.kind === 'within' ? (
+        <Card className="notice">
+          <h2 className="notice-title">Within the legal cap</h2>
+          <p className="notice-body">
+            Section 175AA permits up to {money(cap.cap)} on this price and term, and this offer
+            totals {money(total)}. Lawful and expensive are not the same thing.
+          </p>
+        </Card>
+      ) : null}
+
+      {offer.contractType !== 'consumer_lease' ? (
+        <Card className="notice">
+          <h2 className="notice-title">Not checked against the lease cap</h2>
+          <p className="notice-body">
+            The s175AA cap governs consumer leases. This offer is set to{' '}
+            {offer.contractType === 'bnpl'
+              ? 'buy now, pay later'
+              : offer.contractType === 'credit_contract'
+                ? 'a credit contract'
+                : 'an unknown contract type'}
+            , so that ceiling does not apply and we have not tested it against one.
+          </p>
+        </Card>
+      ) : null}
+
+      <section className="upcoming" aria-labelledby="upcoming-title">
+        <h2 className="upcoming-title" id="upcoming-title">
+          Not built yet
+        </h2>
+        <ul className="upcoming-list">
+          <li>Plain-language cards on what will actually bite</li>
+          <li>NILS eligibility check and provider lookup</li>
+          <li>Read-aloud</li>
+        </ul>
+      </section>
     </>
   )
 }

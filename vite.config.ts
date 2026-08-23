@@ -19,7 +19,7 @@ function extractApi(env: Record<string, string>): Plugin {
     name: 'second-door:extract-api',
     configureServer(server) {
       server.middlewares.use('/api/extract', async (req, res) => {
-        const { handleExtract } = await import('./api/_core')
+        const { handleExtract } = await import('./api/_core.ts')
 
         if (req.method !== 'POST') {
           res.statusCode = 405

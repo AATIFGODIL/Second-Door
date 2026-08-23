@@ -6,8 +6,8 @@
  * extracted fields.
  */
 
-import { handleExtract } from './_core'
-import { clientIp } from './_ratelimit'
+import { handleExtract } from './_core.ts'
+import { clientIp } from './_ratelimit.ts'
 
 export default async function handler(request: Request): Promise<Response> {
   if (request.method !== 'POST') {
