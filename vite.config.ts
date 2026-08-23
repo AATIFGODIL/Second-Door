@@ -1,72 +1,35 @@
 /// <reference types="vitest/config" />
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import type { IncomingMessage, ServerResponse } from 'node:http'
+
+type Handler = (req: IncomingMessage, res: ServerResponse) => Promise<void>
 
 /**
- * Serve /api/extract during `npm run dev`.
+ * Mount the real api/ handlers on the dev server.
  *
- * Vercel runs api/extract.ts in production; this mounts the same handleExtract
- * on the dev server so local development and the deployed site exercise one
- * implementation. Without it you would be developing against a stub and
- * discovering the differences during the demo.
+ * Loaded through ssrLoadModule rather than imported, so the api graph never
+ * enters the config module graph and its imports can stay extensionless for
+ * Vercel. Calling the same default export the platform calls is the point: the
+ * previous version reimplemented the request handling here, which hid a
+ * signature mismatch that only showed up in production.
  *
- * The key is read here, in the config, and only ever reaches the middleware —
- * Vite exposes nothing to the browser bundle unless it is prefixed VITE_, and
- * this deliberately is not.
+ * The key is read here and reaches the handler through process.env. Vite
+ * exposes nothing to the browser bundle unless it is prefixed VITE_.
  */
-function extractApi(env: Record<string, string>): Plugin {
+function apiRoutes(env: Record<string, string>): Plugin {
   return {
-    name: 'second-door:extract-api',
+    name: 'second-door:api',
     configureServer(server) {
-      server.middlewares.use('/api/extract', async (req, res) => {
-        // Loaded through the dev server, not imported here: a static import
-        // would drag the whole api/ graph into the config module graph, and
-        // Vercel needs those imports extensionless.
-        const { handleExtract } = (await server.ssrLoadModule('/api/_core.ts')) as {
-          handleExtract: (raw: unknown, ip: string) => Promise<{
-            status: number
-            body: unknown
-            headers?: Record<string, string>
-          }>
-        }
+      for (const route of ['extract', 'health']) {
+        server.middlewares.use(`/api/${route}`, async (req, res) => {
+          process.env.GEMINI_API_KEY = env.GEMINI_API_KEY ?? process.env.GEMINI_API_KEY
+          process.env.DEMO_ONLY = env.DEMO_ONLY ?? process.env.DEMO_ONLY
 
-        if (req.method !== 'POST') {
-          res.statusCode = 405
-          res.setHeader('content-type', 'application/json')
-          res.end(JSON.stringify({ ok: false, code: 'no_input', message: 'POST an offer.' }))
-          return
-        }
-
-        const chunks: Buffer[] = []
-        for await (const chunk of req) chunks.push(chunk as Buffer)
-
-        let payload: unknown = null
-        try {
-          payload = JSON.parse(Buffer.concat(chunks).toString('utf8'))
-        } catch {
-          payload = null
-        }
-
-        const previous = { key: process.env.GEMINI_API_KEY, demo: process.env.DEMO_ONLY }
-        process.env.GEMINI_API_KEY = env.GEMINI_API_KEY ?? previous.key
-        process.env.DEMO_ONLY = env.DEMO_ONLY ?? previous.demo
-
-        const forwarded = req.headers['x-forwarded-for']
-        const ip =
-          (Array.isArray(forwarded) ? forwarded[0] : forwarded)?.split(',')[0].trim() ??
-          req.socket.remoteAddress ??
-          'local'
-
-        const result = await handleExtract(payload, ip)
-
-        res.statusCode = result.status
-        res.setHeader('content-type', 'application/json')
-        res.setHeader('cache-control', 'no-store')
-        for (const [name, value] of Object.entries(result.headers ?? {})) {
-          res.setHeader(name, value)
-        }
-        res.end(JSON.stringify(result.body))
-      })
+          const module = (await server.ssrLoadModule(`/api/${route}.ts`)) as { default: Handler }
+          await module.default(req, res)
+        })
+      }
     },
   }
 }
@@ -74,7 +37,7 @@ function extractApi(env: Record<string, string>): Plugin {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
-    plugins: [react(), extractApi(env)],
+    plugins: [react(), apiRoutes(env)],
     test: {
       environment: 'node',
       include: ['src/**/*.test.ts'],
