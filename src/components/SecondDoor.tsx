@@ -17,7 +17,7 @@ import { money } from '../lib/format'
 import './second-door.css'
 
 /**
- * The second door: whether NILS is likely to be open, and who to call.
+ * The second door: whether the No Interest Loan Scheme is likely to be open, and who to call.
  *
  * Two rules govern everything here.
  *
@@ -53,7 +53,7 @@ const QUESTIONS: Array<{
   {
     key: 'essentialItem',
     label: 'Is this an essential item or service?',
-    hint: `NILS does not cover ${NOT_FOR.join(', ')}.`,
+    hint: `The scheme does not cover ${NOT_FOR.join(', ')}.`,
   },
   {
     key: 'behindOnRepayments',
@@ -88,10 +88,12 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
   return (
     <Card className="second-door">
       <header className="sd-head">
-        <h2 className="sd-title">The second door</h2>
+        <h2 className="sd-title">The second door: the No Interest Loan Scheme</h2>
         <p className="sd-intro">
-          Five questions, answered on your device and sent nowhere. They match the criteria NILS
-          publishes.
+          A government funded scheme, run by community organisations, that lends for essentials at
+          0% with no fees or charges. Five questions to see whether you are likely to qualify. They
+          match the criteria the scheme publishes, and they are answered on your device and sent
+          nowhere.
         </p>
       </header>
 
