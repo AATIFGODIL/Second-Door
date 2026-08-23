@@ -27,3 +27,8 @@ jobs:
       # here without cloning anything.
       - name: Test
         run: npm test
+
+      # The case bug that prompted this step resolved on macOS and failed on
+      # Linux. Typecheck does not catch it; only a real build does.
+      - name: Build
+        run: npm run build
