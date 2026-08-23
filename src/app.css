@@ -241,36 +241,6 @@
   color: var(--text-secondary);
 }
 
-/* ---- Not built yet --------------------------------------------------- */
-.upcoming {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding-top: var(--sp-4);
-  border-top: 1px solid var(--hairline);
-}
-
-.upcoming-title {
-  font-size: var(--size-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text-tertiary);
-}
-
-.upcoming-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: var(--size-small);
-  letter-spacing: var(--track-small);
-  color: var(--text-secondary);
-  max-width: var(--measure);
-}
-
 /* ---- Footer ---------------------------------------------------------- */
 .colophon {
   display: flex;

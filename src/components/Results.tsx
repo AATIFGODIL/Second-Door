@@ -150,15 +150,6 @@ export function Results({ offer, result }: { offer: ExtractedOffer; result: Asse
           instead.
         </p>
       </Explain>
-
-      <section className="upcoming" aria-labelledby="upcoming-title">
-        <h2 className="upcoming-title" id="upcoming-title">
-          Not built yet
-        </h2>
-        <ul className="upcoming-list">
-          <li>Read-aloud</li>
-        </ul>
-      </section>
     </>
   )
 }
