@@ -78,30 +78,30 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--sp-2);
-  min-height: 44px;
-  padding: var(--sp-2) var(--sp-4);
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border-radius: var(--radius-pill);
   background: var(--bg-sunken);
-  border: 1px solid var(--hairline-strong);
-  color: var(--text);
-  font-size: var(--size-small);
-  letter-spacing: var(--track-small);
-  font-weight: 600;
+  border: 1px solid var(--hairline);
+  color: var(--text-secondary);
   cursor: pointer;
+  flex-shrink: 0;
   transition:
     background-color var(--response-fast) ease,
     border-color var(--response-fast) ease,
+    color var(--response-fast) ease,
     transform var(--response-fast) ease;
 }
 
 .theme-toggle:hover {
+  color: var(--text);
   background: var(--bg-raised);
-  border-color: var(--text-tertiary);
+  border-color: var(--hairline-strong);
 }
 
 .theme-toggle:active {
-  transform: scale(0.97);
+  transform: scale(0.94);
 }
 
 /* ---- Shell ---------------------------------------------------------- */
@@ -144,12 +144,11 @@
   max-width: 36ch;
 }
 
-/* The quoted instalment, marked as the thing being contradicted. Colour
-   only — the emphasis is semantic, so it must not rely on colour alone,
-   and the sentence around it already carries the meaning. */
+/* Second Door accent in title: warm, un-bolded, subtle green */
 .hero-title em {
   font-style: normal;
-  color: var(--red-text);
+  font-weight: 500;
+  color: var(--green-text);
 }
 
 .hero-sub {
