@@ -1,0 +1,121 @@
+/*
+ * Glass primitives.
+ *
+ * Depth is real here: blur strength, fill opacity and rim brightness all move
+ * together, so a depth-3 surface reads as sitting further forward than a
+ * depth-1 surface rather than just being a lighter rectangle.
+ */
+
+.surface {
+  position: relative;
+  border-radius: var(--radius);
+  background: var(--glass-fill);
+  backdrop-filter: blur(var(--blur-1)) saturate(1.45);
+  -webkit-backdrop-filter: blur(var(--blur-1)) saturate(1.45);
+  isolation: isolate;
+}
+
+/* The rim: a 1px gradient border, bright where the light lands at the top,
+   with a faint bounce along the bottom edge. Masked so only the border
+   box paints. */
+.surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--glass-rim);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* A soft sheen pooling at the top inside edge — the specular highlight that
+   makes the pane read as thick rather than as a flat translucent fill. */
+.surface::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(
+    176deg,
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(255, 255, 255, 0.02) 18%,
+    transparent 44%
+  );
+  pointer-events: none;
+}
+
+.surface[data-depth='2'] {
+  background: var(--glass-fill-strong);
+  backdrop-filter: blur(var(--blur-2)) saturate(1.6);
+  -webkit-backdrop-filter: blur(var(--blur-2)) saturate(1.6);
+  border-radius: var(--radius-lg);
+}
+
+.surface[data-depth='3'] {
+  background: var(--glass-fill-strong);
+  backdrop-filter: blur(var(--blur-3)) saturate(1.75);
+  -webkit-backdrop-filter: blur(var(--blur-3)) saturate(1.75);
+  border-radius: var(--radius-lg);
+}
+
+/* A recessed pane — reads as set into the surface behind it rather than
+   stacked on top. Used for inputs and for the cash-price editor. */
+.surface[data-inset='true'] {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.surface[data-inset='true']::after {
+  background: linear-gradient(176deg, rgba(0, 0, 0, 0.3) 0%, transparent 40%);
+}
+
+/* When a surface belongs to a door, its rim and fill pick up that door's
+   temperature. Subtle on purpose — the tone should be felt, not seen. */
+.surface[data-tone='ember'],
+.surface[data-tone='mint'] {
+  background:
+    /* The door's own light, pooling in from the top-left corner. This is what
+       makes the two sides read as different temperatures at a glance rather
+       than as two identically grey cards. */
+    radial-gradient(
+      120% 150% at 0% 0%,
+      color-mix(in oklab, var(--tone-500) 22%, transparent) 0%,
+      color-mix(in oklab, var(--tone-900) 26%, transparent) 42%,
+      transparent 78%
+    ),
+    linear-gradient(180deg, color-mix(in oklab, var(--tone-500) 7%, transparent), transparent 70%),
+    var(--glass-fill);
+}
+
+.surface[data-tone='ember']::before,
+.surface[data-tone='mint']::before {
+  background:
+    linear-gradient(
+      168deg,
+      color-mix(in oklab, var(--tone-300) 78%, transparent) 0%,
+      color-mix(in oklab, var(--tone-400) 26%, rgba(255, 255, 255, 0.08)) 22%,
+      rgba(255, 255, 255, 0.02) 58%,
+      color-mix(in oklab, var(--tone-500) 42%, transparent) 100%
+    );
+}
+
+/* ---- Glow ---------------------------------------------------------
+   The light behind the glass. Sits under everything, never interactive. */
+.glow {
+  position: absolute;
+  z-index: -2;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(60px);
+  opacity: 0.55;
+  background: radial-gradient(circle, var(--tone-500), transparent 68%);
+}

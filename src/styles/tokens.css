@@ -1,0 +1,130 @@
+/*
+ * Second Door — design tokens.
+ *
+ * Two doors, two temperatures. The expensive door runs ember; the second door
+ * runs mint. Every surface, rule and numeral inherits from whichever door it
+ * belongs to, so the palette carries the argument rather than decorating it.
+ *
+ * The ground is deep desaturated ink, never pure black. Glass needs something
+ * behind it to refract — on black it reads as a grey box.
+ */
+
+:root {
+  /* ---- Ground ------------------------------------------------------ */
+  --ink-950: #0b0e14;
+  --ink-900: #131722;
+  --ink-800: #1c2130;
+  --ink-700: #262c3d;
+
+  /* Warm light source, bled in from the upper left */
+  --light-warm: #3a2418;
+  --light-ember: #7a2e12;
+
+  /* ---- Door One — the offer you were shown ------------------------- */
+  --ember-300: #ffc49a;
+  --ember-400: #ffa166;
+  --ember-500: #ff7a3d;
+  --ember-600: #e05a22;
+  --ember-700: #b33a12;
+  --ember-900: #4a1608;
+
+  /* ---- Door Two — the one nobody advertises ------------------------ */
+  --mint-300: #a8f0d8;
+  --mint-400: #7fe7c4;
+  --mint-500: #4fd3aa;
+  --mint-600: #2fb894;
+  --mint-900: #0d3b33;
+
+  /* ---- Text — warm off-white, never #fff, so it sits under the same
+         light as everything else ------------------------------------- */
+  --paper-50: #f4f1ec;
+  --paper-300: #c6c1b8;
+  --paper-500: #8a8880;
+  --paper-700: #5c5a55;
+
+  /* ---- Glass ------------------------------------------------------- */
+  --glass-fill: rgba(255, 255, 255, 0.055);
+  --glass-fill-strong: rgba(255, 255, 255, 0.085);
+  --glass-fill-faint: rgba(255, 255, 255, 0.03);
+
+  /* Specular rim: bright at the top where the light hits, faint bounce
+     along the bottom edge. Drawn as a masked gradient border. */
+  --glass-rim: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.07) 26%,
+    rgba(255, 255, 255, 0.015) 62%,
+    rgba(255, 255, 255, 0.09) 100%
+  );
+
+  --blur-1: 12px;
+  --blur-2: 24px;
+  --blur-3: 40px;
+
+  /* ---- Type -------------------------------------------------------- */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-body: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+
+  --step--2: 0.694rem;
+  --step--1: 0.833rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.44rem;
+  --step-3: 1.728rem;
+  --step-4: 2.35rem;
+  --step-5: 3.2rem;
+  /* The hero figure is the largest thing on the screen by a wide margin. */
+  --step-hero: clamp(3.75rem, 15vw, 8.5rem);
+
+  /* ---- Space ------------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 22px;
+
+  --measure: 62ch;
+  --shell: 1140px;
+
+  /* ---- Motion ------------------------------------------------------
+     Almost everything on this site is still. The motion budget is spent
+     in one place: the cost reveal. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 140ms;
+  --dur: 260ms;
+}
+
+/* Tone scoping: a subtree marked with a door inherits that door's colour
+   through one variable, so components never hard-code a side. */
+[data-tone='ember'] {
+  --tone-300: var(--ember-300);
+  --tone-400: var(--ember-400);
+  --tone-500: var(--ember-500);
+  --tone-600: var(--ember-600);
+  --tone-900: var(--ember-900);
+}
+
+[data-tone='mint'] {
+  --tone-300: var(--mint-300);
+  --tone-400: var(--mint-400);
+  --tone-500: var(--mint-500);
+  --tone-600: var(--mint-600);
+  --tone-900: var(--mint-900);
+}
+
+[data-tone='neutral'] {
+  --tone-300: var(--paper-300);
+  --tone-400: var(--paper-300);
+  --tone-500: var(--paper-500);
+  --tone-600: var(--paper-700);
+  --tone-900: var(--ink-800);
+}
