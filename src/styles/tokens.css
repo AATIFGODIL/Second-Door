@@ -1,82 +1,112 @@
 /*
  * Second Door — design tokens.
  *
- * Two doors, two temperatures. The expensive door runs ember; the second door
- * runs mint. Every surface, rule and numeral inherits from whichever door it
- * belongs to, so the palette carries the argument rather than decorating it.
- *
- * The ground is deep desaturated ink, never pure black. Glass needs something
- * behind it to refract — on black it reads as a grey box.
+ * Two layers: a primitive palette, then semantic roles. Components only ever
+ * reference the semantic layer, so light and dark are one set of overrides in
+ * this file rather than a condition in every rule.
  */
 
 :root {
-  /* ---- Ground ------------------------------------------------------ */
-  --ink-950: #0b0e14;
-  --ink-900: #131722;
-  --ink-800: #1c2130;
-  --ink-700: #262c3d;
+  color-scheme: light dark;
 
-  /* Warm light source, bled in from the upper left */
-  --light-warm: #3a2418;
-  --light-ember: #7a2e12;
+  /* ---- Neutrals ---------------------------------------------------- */
+  --grey-0: #ffffff;
+  --grey-50: #f7f7f8;
+  --grey-100: #f2f2f7;
+  --grey-150: #e9e9ee;
+  --grey-200: #dcdce2;
+  --grey-300: #c3c3ca;
+  --grey-500: #8a8a8f;
+  --grey-600: #6c6c72;
+  --grey-700: #48484d;
+  --grey-800: #2c2c30;
+  --grey-900: #1c1c1e;
+  --grey-950: #0f0f11;
+  --black: #000000;
 
-  /* ---- Door One — the offer you were shown ------------------------- */
-  --ember-300: #ffc49a;
-  --ember-400: #ffa166;
-  --ember-500: #ff7a3d;
-  --ember-600: #e05a22;
-  --ember-700: #b33a12;
-  --ember-900: #4a1608;
+  /* ---- Signal ------------------------------------------------------
+     Two pairs per hue: a -text value that clears 4.5:1 on its own
+     background, and a -fill value for shapes, where contrast is a
+     3:1 non-text requirement. Using one value for both is how red
+     type ends up at 3.2:1. */
+  --red-text: #d70015;
+  --red-fill: #ff3b30;
+  --red-wash: #ffeceb;
 
-  /* ---- Door Two — the one nobody advertises ------------------------ */
-  --mint-300: #a8f0d8;
-  --mint-400: #7fe7c4;
-  --mint-500: #4fd3aa;
-  --mint-600: #2fb894;
-  --mint-900: #0d3b33;
+  --green-text: #1c7a38;
+  --green-fill: #34c759;
+  --green-wash: #e8f8ed;
 
-  /* ---- Text — warm off-white, never #fff, so it sits under the same
-         light as everything else ------------------------------------- */
-  --paper-50: #f4f1ec;
-  --paper-300: #c6c1b8;
-  --paper-500: #8a8880;
-  --paper-700: #5c5a55;
+  --amber-text: #8a5a00;
+  --amber-fill: #ff9f0a;
+  --amber-wash: #fff4e0;
 
-  /* ---- Glass ------------------------------------------------------- */
-  --glass-fill: rgba(255, 255, 255, 0.055);
-  --glass-fill-strong: rgba(255, 255, 255, 0.085);
-  --glass-fill-faint: rgba(255, 255, 255, 0.03);
+  --blue-text: #0060df;
+  --blue-fill: #007aff;
 
-  /* Specular rim: bright at the top where the light hits, faint bounce
-     along the bottom edge. Drawn as a masked gradient border. */
-  --glass-rim: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0.07) 26%,
-    rgba(255, 255, 255, 0.015) 62%,
-    rgba(255, 255, 255, 0.09) 100%
-  );
+  /* ---- Semantic: surfaces ------------------------------------------ */
+  --bg: var(--grey-100);
+  --bg-raised: var(--grey-0);
+  --bg-sunken: var(--grey-150);
+  --bg-chrome: rgba(242, 242, 247, 0.72);
 
-  --blur-1: 12px;
-  --blur-2: 24px;
-  --blur-3: 40px;
+  --hairline: rgba(0, 0, 0, 0.1);
+  --hairline-strong: rgba(0, 0, 0, 0.18);
 
-  /* ---- Type -------------------------------------------------------- */
-  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
-  --font-body: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+  /* Shadows stay shallow. Elevation here means "this is a distinct
+     record", not "this is floating". */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-2:
+    0 1px 2px rgba(0, 0, 0, 0.05),
+    0 8px 24px -12px rgba(0, 0, 0, 0.18);
 
-  --step--2: 0.694rem;
-  --step--1: 0.833rem;
-  --step-0: 1rem;
-  --step-1: 1.2rem;
-  --step-2: 1.44rem;
-  --step-3: 1.728rem;
-  --step-4: 2.35rem;
-  --step-5: 3.2rem;
-  /* The hero figure is the largest thing on the screen by a wide margin. */
-  --step-hero: clamp(3.75rem, 15vw, 8.5rem);
+  /* ---- Semantic: text ---------------------------------------------- */
+  --text: #101013;
+  --text-secondary: var(--grey-600);
+  --text-tertiary: var(--grey-500);
+  --text-inverse: var(--grey-0);
 
-  /* ---- Space ------------------------------------------------------- */
+  /* ---- Type --------------------------------------------------------
+     System font, no webfont. On Apple platforms this resolves to SF,
+     which ships optical sizing and per-size tracking tables that no
+     downloaded face gives us for free. */
+  --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+
+  /* Size, tracking and leading move together. Tracking tightens as size
+     grows — letters read too loose at display sizes and too tight at
+     caption sizes, so a single letter-spacing is wrong somewhere. */
+  --size-display: clamp(3.25rem, 12vw, 5.5rem);
+  --track-display: -0.028em;
+  --leading-display: 0.98;
+
+  --size-title: clamp(1.75rem, 4.2vw, 2.5rem);
+  --track-title: -0.021em;
+  --leading-title: 1.1;
+
+  --size-heading: 1.3125rem;
+  --track-heading: -0.014em;
+  --leading-heading: 1.25;
+
+  --size-body: 1.0625rem;
+  --track-body: -0.006em;
+  --leading-body: 1.5;
+
+  --size-small: 0.9375rem;
+  --track-small: 0;
+  --leading-small: 1.45;
+
+  --size-caption: 0.8125rem;
+  --track-caption: 0.005em;
+  --leading-caption: 1.4;
+
+  --size-label: 0.75rem;
+  --track-label: 0.06em;
+
+  /* ---- Space -------------------------------------------------------
+     Multiples of 4px, in rem so the layout scales with the user's
+     text-size setting instead of breaking against it. */
   --sp-1: 0.25rem;
   --sp-2: 0.5rem;
   --sp-3: 0.75rem;
@@ -88,43 +118,87 @@
   --sp-9: 6rem;
 
   --radius-sm: 8px;
-  --radius: 14px;
-  --radius-lg: 22px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
 
-  --measure: 62ch;
-  --shell: 1140px;
+  --measure: 66ch;
+  --shell: 1060px;
 
   /* ---- Motion ------------------------------------------------------
-     Almost everything on this site is still. The motion budget is spent
-     in one place: the cost reveal. */
+     Response is how fast the value reaches its target; it is not a
+     duration. Springs have no fixed duration — settle time falls out
+     of the parameters. Critically damped by default: overshoot is
+     earned by a gesture carrying momentum, and nothing here has one
+     yet. --ease-spring approximates a damping-1.0 spring for the
+     transitions that are not gesture-driven. */
+  --ease-spring: linear(
+    0, 0.0039, 0.0157, 0.0348, 0.0609, 0.0938, 0.1332, 0.1789, 0.2307, 0.2882,
+    0.3511, 0.419, 0.4916, 0.5684, 0.649, 0.7328, 0.8195, 0.9084, 0.999, 1.0906,
+    1.0004 55.5%, 1
+  );
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
-  --dur-fast: 140ms;
-  --dur: 260ms;
+  --response-fast: 0.14s;
+  --response: 0.32s;
+  --response-slow: 0.5s;
 }
 
-/* Tone scoping: a subtree marked with a door inherits that door's colour
-   through one variable, so components never hard-code a side. */
-[data-tone='ember'] {
-  --tone-300: var(--ember-300);
-  --tone-400: var(--ember-400);
-  --tone-500: var(--ember-500);
-  --tone-600: var(--ember-600);
-  --tone-900: var(--ember-900);
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: var(--black);
+    --bg-raised: var(--grey-900);
+    --bg-sunken: var(--grey-950);
+    --bg-chrome: rgba(20, 20, 22, 0.72);
+
+    --hairline: rgba(255, 255, 255, 0.12);
+    --hairline-strong: rgba(255, 255, 255, 0.22);
+
+    --shadow-1: none;
+    --shadow-2: none;
+
+    --text: #f5f5f7;
+    --text-secondary: #a1a1a8;
+    --text-tertiary: #77777d;
+    --text-inverse: var(--black);
+
+    /* Saturated hues vibrate against black; these are the dark-mode
+       counterparts, lightened to hold 4.5:1 on --bg-raised. */
+    --red-text: #ff6961;
+    --red-fill: #ff453a;
+    --red-wash: rgba(255, 69, 58, 0.15);
+
+    --green-text: #4cd97b;
+    --green-fill: #30d158;
+    --green-wash: rgba(48, 209, 88, 0.15);
+
+    --amber-text: #ffb340;
+    --amber-fill: #ff9f0a;
+    --amber-wash: rgba(255, 159, 10, 0.15);
+
+    --blue-text: #64a9ff;
+    --blue-fill: #0a84ff;
+  }
 }
 
-[data-tone='mint'] {
-  --tone-300: var(--mint-300);
-  --tone-400: var(--mint-400);
-  --tone-500: var(--mint-500);
-  --tone-600: var(--mint-600);
-  --tone-900: var(--mint-900);
+/* Translucency off: the chrome becomes opaque rather than losing its
+   separation from the content scrolling under it. */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --bg-chrome: var(--grey-100);
+  }
 }
 
-[data-tone='neutral'] {
-  --tone-300: var(--paper-300);
-  --tone-400: var(--paper-300);
-  --tone-500: var(--paper-500);
-  --tone-600: var(--paper-700);
-  --tone-900: var(--ink-800);
+@media (prefers-reduced-transparency: reduce) and (prefers-color-scheme: dark) {
+  :root {
+    --bg-chrome: #141416;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --hairline: rgba(0, 0, 0, 0.35);
+    --hairline-strong: rgba(0, 0, 0, 0.6);
+    --text-secondary: var(--grey-800);
+    --text-tertiary: var(--grey-700);
+  }
 }

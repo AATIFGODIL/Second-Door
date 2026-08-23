@@ -1,0 +1,319 @@
+/* ---- Chrome --------------------------------------------------------
+   The one translucent surface in the product. Content scrolls under it,
+   which is the condition that makes a material mean anything: blur with
+   nothing moving behind it is just a grey box.
+
+   The separation is a scroll edge, not a divider. The blur layer extends
+   past the bar and is masked to nothing, so content dissolves as it
+   passes under instead of being cut by a 1px line. */
+.masthead {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.masthead::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 -24px 0;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: linear-gradient(to bottom, var(--bg-chrome) 55%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 58%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 58%, transparent 100%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .masthead::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg-chrome);
+    -webkit-mask-image: none;
+    mask-image: none;
+    inset: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+}
+
+.masthead-inner {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-4);
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding: var(--sp-4) var(--sp-5);
+}
+
+.wordmark {
+  font-size: var(--size-body);
+  font-weight: 600;
+  letter-spacing: -0.014em;
+}
+
+.masthead-note {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  color: var(--text-secondary);
+}
+
+/* ---- Shell ---------------------------------------------------------- */
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--sp-5);
+}
+
+@media (max-width: 460px) {
+  .shell,
+  .masthead-inner {
+    padding-inline: var(--sp-4);
+  }
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+  padding-block: var(--sp-7) var(--sp-9);
+}
+
+/* ---- Hero ----------------------------------------------------------- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.eyebrow {
+  font-size: var(--size-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.hero-title {
+  font-size: var(--size-title);
+  line-height: var(--leading-title);
+  letter-spacing: var(--track-title);
+  font-weight: 600;
+  max-width: 24ch;
+}
+
+/* ---- The reveal ------------------------------------------------------
+   One number is the point of this screen, so exactly one number gets
+   display size. Everything supporting it is body size or smaller. If a
+   second figure ever needs to be this loud, the screen is doing two
+   jobs. */
+.reveal {
+  overflow: hidden;
+}
+
+.reveal-main {
+  padding: var(--sp-6) var(--sp-5);
+}
+
+.reveal-breakdown {
+  border-top: 1px solid var(--hairline);
+  background: var(--bg-sunken);
+}
+
+.breakdown-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+}
+
+.breakdown-row + .breakdown-row {
+  border-top: 1px solid var(--hairline);
+}
+
+.breakdown-row dt {
+  color: var(--text-secondary);
+}
+
+.breakdown-row dd {
+  font-weight: 600;
+  text-align: right;
+}
+
+.breakdown-row dd[data-signal='bad'] {
+  color: var(--red-text);
+}
+
+@media (min-width: 640px) {
+  .reveal-main {
+    padding: var(--sp-7) var(--sp-6);
+  }
+
+  .breakdown-row {
+    padding-inline: var(--sp-6);
+  }
+}
+
+/* ---- The two doors ---------------------------------------------------
+   Equal weight, equal size, side by side. The comparison is the whole
+   argument, so neither side gets a visual thumb on the scale — the
+   difference between the two numbers is the only thing doing the work. */
+.doors {
+  display: grid;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 760px) {
+  .doors {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.door {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.door-title {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.door-body {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.door .figure {
+  margin-top: auto;
+  padding-top: var(--sp-3);
+}
+
+/* ---- Notice ---------------------------------------------------------- */
+.notice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.notice[data-kind='warn'] {
+  background: var(--amber-wash);
+  border-color: color-mix(in oklab, var(--amber-fill) 32%, transparent);
+}
+
+.notice-title {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 600;
+}
+
+.notice[data-kind='warn'] .notice-title {
+  color: var(--amber-text);
+}
+
+.notice-body {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+}
+
+.notice-foot {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}
+
+/* ---- Not built yet --------------------------------------------------- */
+.upcoming {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--hairline);
+}
+
+.upcoming-title {
+  font-size: var(--size-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.upcoming-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  color: var(--text-secondary);
+  max-width: var(--measure);
+}
+
+/* ---- Footer ---------------------------------------------------------- */
+.colophon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  padding-block: var(--sp-5) var(--sp-7);
+  border-top: 1px solid var(--hairline);
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+}
+
+.colophon strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.colophon a {
+  color: var(--blue-text);
+  text-underline-offset: 2px;
+}
+
+/* Feedback on press, not on release. Anything the user can touch
+   acknowledges the touch the instant it lands. */
+.colophon a:active,
+.skip:active {
+  opacity: 0.55;
+  transition: opacity 40ms linear;
+}
+
+/* ---- Skip link -------------------------------------------------------- */
+.skip {
+  position: fixed;
+  left: var(--sp-4);
+  top: var(--sp-4);
+  z-index: 50;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline-strong);
+  box-shadow: var(--shadow-2);
+  color: var(--text);
+  font-size: var(--size-small);
+  text-decoration: none;
+  transform: translateY(calc(-100% - var(--sp-5)));
+  transition: transform var(--response) var(--ease-spring);
+}
+
+.skip:focus-visible {
+  transform: translateY(0);
+}

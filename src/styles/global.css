@@ -16,40 +16,28 @@ html {
 
 body {
   min-height: 100dvh;
-  font-family: var(--font-body);
-  font-size: var(--step-0);
-  line-height: 1.55;
-  color: var(--paper-300);
-  background-color: var(--ink-950);
-
-  /* The warm source sits upper-left; a cold mint bleed answers it from the
-     lower right. Both doors are present in the ground before either is drawn. */
-  background-image:
-    radial-gradient(120% 85% at 6% -12%, rgba(122, 46, 18, 0.42), transparent 58%),
-    radial-gradient(85% 65% at -8% 28%, rgba(58, 36, 24, 0.55), transparent 62%),
-    radial-gradient(95% 70% at 104% 112%, rgba(13, 59, 51, 0.32), transparent 58%),
-    radial-gradient(60% 45% at 50% 50%, rgba(38, 44, 61, 0.35), transparent 70%);
-  background-attachment: fixed;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--track-body);
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -0.015em;
-  color: var(--paper-50);
-  /* A little softness in the terminals; the wonky alternates are reserved for
-     the wordmark, where character helps and gravity isn't the point. */
-  font-variation-settings: 'SOFT' 18, 'WONK' 0;
-  font-optical-sizing: auto;
+  font-weight: 600;
+  letter-spacing: var(--track-heading);
+  line-height: var(--leading-heading);
+  text-wrap: balance;
 }
 
 p {
   max-width: var(--measure);
+  text-wrap: pretty;
 }
 
 button,
@@ -57,6 +45,7 @@ input,
 textarea,
 select {
   font: inherit;
+  letter-spacing: inherit;
   color: inherit;
 }
 
@@ -70,21 +59,22 @@ svg {
   max-width: 100%;
 }
 
-/* Digits must never jitter — not in labels, not mid-count-up. */
+/* Every figure on the site. Tabular so digits hold their column and
+   nothing jitters as a value changes; lining so they sit on the cap
+   height beside the text they interrupt. */
 .num {
   font-variant-numeric: tabular-nums lining-nums;
   font-feature-settings: 'tnum' 1, 'lnum' 1;
 }
 
-/* ---- Focus -------------------------------------------------------- */
 :focus {
   outline: none;
 }
 
 :focus-visible {
-  outline: 2px solid var(--paper-50);
+  outline: 2px solid var(--blue-fill);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: var(--radius-sm);
 }
 
 .visually-hidden {
@@ -93,13 +83,13 @@ svg {
   height: 1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
 
-/* ---- Reduced motion ------------------------------------------------
-   The reveal keeps its end state; it just stops moving to get there. */
+/* Reduced motion keeps every end state and every non-vestibular cue —
+   opacity and colour still carry meaning. Only travel is removed. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -1,0 +1,96 @@
+/*
+ * Card — one record, on the raised surface.
+ *
+ * Not a material. A card here means "these figures belong together and
+ * are separate from those figures", which is a grouping job, so it is
+ * done with background, a hairline and a shallow shadow rather than
+ * with blur. The only genuinely translucent surface in the product is
+ * the masthead, because that is the only one with content moving
+ * underneath it to refract.
+ */
+
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+
+.card[data-elevation='2'] {
+  box-shadow: var(--shadow-2);
+}
+
+/* Set into the page rather than raised off it — inputs, and any field
+   the user is expected to correct. */
+.card[data-variant='sunken'] {
+  background: var(--bg-sunken);
+  box-shadow: none;
+}
+
+.card[data-pad='true'] {
+  padding: var(--sp-5);
+}
+
+@media (min-width: 640px) {
+  .card[data-pad='true'] {
+    padding: var(--sp-6);
+  }
+}
+
+/* ---- Figure --------------------------------------------------------
+   A labelled number. The label is small and quiet, the value is the
+   loudest thing in its container, and any qualification sits under
+   both — so the eye lands on the number and the caveat is still
+   attached to it. */
+.figure {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.figure-label {
+  font-size: var(--size-label);
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.figure-value {
+  font-size: var(--size-title);
+  line-height: var(--leading-title);
+  letter-spacing: var(--track-title);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.figure[data-scale='display'] .figure-value {
+  font-size: var(--size-display);
+  line-height: var(--leading-display);
+  letter-spacing: var(--track-display);
+  font-weight: 700;
+}
+
+.figure[data-scale='small'] .figure-value {
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+}
+
+/* Signal sits on the number, never on the box around it. A red card
+   says "this whole area is dangerous"; a red number says "this figure
+   is the problem", which is the true statement. */
+.figure[data-signal='bad'] .figure-value {
+  color: var(--red-text);
+}
+
+.figure[data-signal='good'] .figure-value {
+  color: var(--green-text);
+}
+
+.figure-note {
+  font-size: var(--size-caption);
+  letter-spacing: var(--track-caption);
+  line-height: var(--leading-caption);
+  color: var(--text-secondary);
+  max-width: 34ch;
+}
