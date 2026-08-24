@@ -301,30 +301,16 @@ export function Landing({ onStart }: { onStart: () => void }) {
         </p>
         <div className="persona">
           <p className="persona-name">Sarah, 34. Two kids. Casual shifts.</p>
-          <ul className="facts tight">
-            <li>Her washing machine died on a Tuesday.</li>
-            <li>No savings, no credit card.</li>
-            <li>A card was declined last year, so she stopped asking.</li>
-            <li>The window says $20 a week, and she can do $20 a week.</li>
-          </ul>
+          <p className="persona-body">
+            Her washing machine died on a Tuesday. She has no savings and no credit card, and the
+            last card she applied for was declined, so she stopped asking. The rental shop window
+            says $17.64 a week, and $17.64 a week is something she can do.
+          </p>
         </div>
         <p className="section-highlight">
           Nobody hides the total from Sarah. It is in the contract. It is just never the number on
           the sign. Second Door works it out in the thirty seconds before she signs.
         </p>
-        <ul className="facts">
-          <li>
-            <strong>The total comes first.</strong> The biggest thing on the screen is what you
-            will actually pay.
-          </li>
-          <li>
-            <strong>Point a camera at it.</strong> No typing, no account, no app.
-          </li>
-          <li>
-            <strong>Affordability, not just price.</strong> An offer can be fair value and still
-            take everything you had spare.
-          </li>
-        </ul>
       </section>
 
       <section className="prose-section reveal-on-scroll" aria-labelledby="cap-title">

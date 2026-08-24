@@ -407,8 +407,9 @@
 .persona {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
-  padding: var(--sp-5);
+  gap: var(--sp-3);
+  width: 100%;
+  padding: var(--sp-6);
   background: var(--bg-sunken);
   border-radius: var(--radius-lg);
   border: 1px solid var(--hairline);
@@ -421,17 +422,12 @@
   letter-spacing: -0.01em;
 }
 
-.persona .facts.tight {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.persona .facts.tight li {
-  background: var(--bg-raised);
-  padding-left: var(--sp-4);
-}
-
-.persona .facts.tight li::before {
-  display: none;
+.persona-body {
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
+  color: var(--text-secondary);
+  width: 100%;
+  max-width: 100%;
 }
 
 /* ---- Closer ------------------------------------------------------------ */
