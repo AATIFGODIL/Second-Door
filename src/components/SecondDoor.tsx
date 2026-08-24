@@ -1,9 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { Card } from './ui/Card'
 import { Explain } from './Explain'
 import {
   assessEligibility,
   BLANK_ANSWERS,
+  type Disclosure,
   coverageFor,
   INCOME_PARTNERED,
   INCOME_SINGLE,
@@ -29,10 +30,21 @@ import './second-door.css'
  * live directory beside it. Phone numbers go stale.
  */
 
+const YES_NO: Disclosure[] = [true, false]
+/** Only this question offers a way out of answering it. */
+const YES_NO_SKIP: Disclosure[] = [true, false, 'skipped']
+
+function choiceLabel(value: Disclosure) {
+  if (value === true) return 'Yes'
+  if (value === false) return 'No'
+  return 'Rather not say'
+}
+
 const QUESTIONS: Array<{
   key: keyof Answers
   label: string
-  hint?: string
+  hint?: ReactNode
+  choices?: Disclosure[]
   /** A yes here is a reason for concern rather than a qualification. */
   inverted?: boolean
 }> = [
@@ -43,17 +55,32 @@ const QUESTIONS: Array<{
   {
     key: 'underIncome',
     label: 'Is your income under the guideline?',
-    hint: `Under ${money(INCOME_SINGLE)} before tax on your own, or under ${money(INCOME_PARTNERED)} with a partner or dependants.`,
+    hint: (
+      <>
+        Before tax: under <strong>{money(INCOME_SINGLE)}</strong> on your own, or{' '}
+        <strong>{money(INCOME_PARTNERED)}</strong> with a partner or kids.
+      </>
+    ),
   },
   {
     key: 'familyViolence',
     label: 'Have you experienced family or domestic violence in the last 10 years?',
-    hint: 'If yes, no income test applies. You can skip this question if you would rather not answer.',
+    choices: YES_NO_SKIP,
+    hint: (
+      <>
+        A yes means <strong>no income test applies</strong>. You can skip this question if you
+        would rather not answer.
+      </>
+    ),
   },
   {
     key: 'essentialItem',
     label: 'Is this an essential item or service?',
-    hint: `The scheme does not cover ${NOT_FOR.join(', ')}.`,
+    hint: `Not for ${NOT_FOR.join(', ')}.`,
+  },
+  {
+    key: 'threeMonthsAtAddress',
+    label: 'Have you lived at your current address for at least three months?',
   },
   {
     key: 'behindOnRepayments',
@@ -76,23 +103,26 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
   const outcome = useMemo(() => assessEligibility(answers), [answers])
   const coverage = cashPrice !== null ? coverageFor(cashPrice, category) : null
 
+  // Nineteen providers listed by default is a wall to read, and the one you
+  // want is the one near you. Nothing lists until you say where or who.
+  const needle = where.trim().toLowerCase()
   const providers = useMemo(() => {
-    const needle = where.trim().toLowerCase()
-    if (!needle) return directory.providers
+    if (!needle) return []
     return directory.providers.filter(
       (provider) =>
-        provider.suburb.toLowerCase().includes(needle) || provider.postcode.startsWith(needle),
+        provider.name.toLowerCase().includes(needle) ||
+        provider.suburb.toLowerCase().includes(needle) ||
+        provider.postcode.startsWith(needle),
     )
-  }, [where])
+  }, [needle])
 
   return (
     <Card className="second-door">
       <header className="sd-head">
         <h2 className="sd-title">The Second Door: No Interest Loan Scheme (NILS)</h2>
         <p className="sd-intro">
-          NILS is a government-backed, community-run scheme. It lends at 0% with no fees, for
-          essential household items and services. Answer five questions to see if it could be open
-          to you. Your answers stay on this device.
+          <strong>0% interest. No fees. Ever.</strong> A government-backed, community-run loan for
+          essential things. Six questions, answered on your device, nothing sent anywhere.
         </p>
       </header>
 
@@ -104,16 +134,18 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
             </p>
             {question.hint ? <p className="sd-q-hint">{question.hint}</p> : null}
             <div className="sd-choices" role="group" aria-labelledby={`q-${question.key}`}>
-              {[true, false].map((value) => (
+              {(question.choices ?? YES_NO).map((value) => (
                 <button
                   key={String(value)}
                   type="button"
                   className="sd-choice"
                   data-chosen={answers[question.key] === value || undefined}
                   aria-pressed={answers[question.key] === value}
-                  onClick={() => setAnswers((prev) => ({ ...prev, [question.key]: value }))}
+                  onClick={() =>
+                    setAnswers((prev) => ({ ...prev, [question.key]: value }) as Answers)
+                  }
                 >
-                  {value ? 'Yes' : 'No'}
+                  {choiceLabel(value)}
                 </button>
               ))}
             </div>
@@ -134,15 +166,15 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
             ))}
           </ul>
           <p className="sd-outcome-caveat">
-            This is not a decision. Providers set their own rules, so the only way to know is to
-            ask them.
+            <strong>This is not a decision.</strong> Providers set their own rules. The only way to
+            know is to ask one.
           </p>
         </div>
       )}
 
       <div className="sd-coverage">
         <h3 className="sd-sub">What you would borrow it for</h3>
-        <div className="field">
+        <div className="field sd-category">
           <label className="field-label" htmlFor="sd-category">
             Closest category
           </label>
@@ -163,13 +195,15 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
           <p className="sd-coverage-note" data-signal={coverage.withinCap ? undefined : 'bad'}>
             {coverage.withinCap ? (
               <>
-                {money(cashPrice as number)} is inside the {money(coverage.category.cap)} ceiling
-                for {coverage.category.label.toLowerCase()}, repaid over up to{' '}
-                {coverage.category.months} months.
+                <strong>{money(cashPrice as number)}</strong> fits inside the{' '}
+                <strong>{money(coverage.category.cap)}</strong> ceiling for{' '}
+                {coverage.category.label.toLowerCase()}, over up to {coverage.category.months}{' '}
+                months.
               </>
             ) : (
               <>
-                {money(cashPrice as number)} is {money(coverage.shortfall)} above the{' '}
+                <strong>{money(cashPrice as number)}</strong> is{' '}
+                <strong>{money(coverage.shortfall)}</strong> above the{' '}
                 {money(coverage.category.cap)} ceiling for{' '}
                 {coverage.category.label.toLowerCase()}. A provider may still have options.
               </>
@@ -182,29 +216,38 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
         <h3 className="sd-sub">Who to call</h3>
 
         <a className="sd-national" href={`tel:${directory.nationalLine.tel}`}>
-          <span className="sd-national-label">{directory.nationalLine.label}</span>
+          <span className="sd-national-label">Call the national line</span>
           <span className="sd-national-number num">{directory.nationalLine.number}</span>
-          <span className="sd-national-hours">{directory.nationalLine.hours}</span>
+          <span className="sd-national-hours">
+            {directory.nationalLine.hours}. They pass you on to a provider near you, so this one
+            number is enough.
+          </span>
         </a>
 
-        <div className="field">
+        <p className="sd-or">Or find a provider yourself</p>
+
+        <div className="field sd-search">
           <label className="field-label" htmlFor="sd-where">
-            Or find one near you
+            Search by suburb, postcode or name
           </label>
           <input
             id="sd-where"
             className="input"
-            type="text"
-            placeholder="Suburb or postcode"
+            type="search"
+            placeholder="Suburb, postcode or name"
             value={where}
             onChange={(event) => setWhere(event.target.value)}
           />
         </div>
 
-        {providers.length === 0 ? (
+        {!needle ? (
           <p className="sd-empty">
-            Nothing in this snapshot matches that. Call {directory.nationalLine.number}, or use the
-            live directory linked below.
+            Type above to see the providers near you.
+          </p>
+        ) : providers.length === 0 ? (
+          <p className="sd-empty">
+            Nothing here matches that. Call <strong>{directory.nationalLine.number}</strong>, or
+            use the live directory below.
           </p>
         ) : (
           <ul className="sd-list">
@@ -232,7 +275,9 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
         )}
 
         <p className="sd-snapshot">
-          Hours and locations change, so call before you travel.{' '}
+          {needle ? providers.length : directory.providers.length} of{' '}
+          {directory.providers.length} within 20km, captured{' '}
+          {directory.capturedOn}, not fetched live. Call before you travel.{' '}
           <a href={SOURCE.providerFinder} target="_blank" rel="noopener noreferrer">
             Check the live directory
           </a>

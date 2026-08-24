@@ -130,6 +130,24 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
         </div>
       </div>
 
+      <div className="estimate">
+        <h3 className="estimate-title">Delivery and installation</h3>
+        <p className="estimate-note">
+          Only if they charge it on top. A lease is allowed to add it, so it raises the legal
+          ceiling. Leave it empty if delivery is free.
+        </p>
+        <div className="estimate-fields">
+          <NumberField
+            id="f-delivery"
+            label="Charged on top"
+            prefix="$"
+            value={offer.deliveryInstallation}
+            flagged={flagged('delivery')}
+            onCommit={(next) => set('deliveryInstallation', next)}
+          />
+        </div>
+      </div>
+
       {offer.fees.length > 0 ? (
         <div className="fees">
           <h3 className="fees-title">Fees the ad mentions</h3>

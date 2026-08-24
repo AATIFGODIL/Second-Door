@@ -16,20 +16,26 @@
   font-weight: 600;
 }
 
-.sd-intro,
-.sd-empty {
+.sd-intro {
   font-size: var(--size-small);
   letter-spacing: var(--track-small);
   line-height: var(--leading-small);
   color: var(--text-secondary);
 }
 
+/* Read at a glance, not skimmed past: this is the line telling you the
+   search is empty and what to do about it. */
+.sd-empty {
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
+  color: var(--text);
+}
+
 .sd-sub {
-  font-size: var(--size-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text-tertiary);
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+  font-weight: 700;
+  color: var(--text);
 }
 
 /* ---- Questions --------------------------------------------------------
@@ -74,8 +80,8 @@
 
 .sd-choice {
   flex: 1;
-  max-width: 10rem;
-  min-height: 48px;
+  max-width: 13rem;
+  min-height: 56px;
   border: 1px solid var(--hairline-strong);
   border-radius: var(--radius);
   background: var(--bg-raised);
@@ -97,6 +103,26 @@
   background: var(--text);
   border-color: var(--text);
   color: var(--bg-raised);
+}
+
+/* ---- Category and search ----------------------------------------------
+   Two controls that decide what the rest of the panel says, so they are
+   sized to be found and hit rather than to match the smaller fields on
+   the offer form above. */
+.sd-category .select,
+.sd-search .input {
+  min-height: 56px;
+  font-size: var(--size-heading);
+  letter-spacing: var(--track-heading);
+}
+
+.sd-category .field-label,
+.sd-search .field-label {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  text-transform: none;
+  color: var(--text);
+  font-weight: 600;
 }
 
 /* ---- Outcome ----------------------------------------------------------- */
@@ -202,11 +228,9 @@
 }
 
 .sd-national-label {
-  font-size: var(--size-label);
-  letter-spacing: var(--track-label);
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--text-tertiary);
+  font-size: var(--size-body);
+  font-weight: 700;
+  color: var(--text);
 }
 
 .sd-national-number {
@@ -217,9 +241,21 @@
 }
 
 .sd-national-hours {
-  font-size: var(--size-caption);
-  letter-spacing: var(--track-caption);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
   color: var(--text-secondary);
+}
+
+/* Two ways to reach a provider, and they were sitting flush against each
+   other with nothing to say they were alternatives. */
+.sd-or {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--hairline);
 }
 
 /* ---- Provider list ------------------------------------------------------ */

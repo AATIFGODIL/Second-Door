@@ -62,6 +62,9 @@ export function assess(offer: ExtractedOffer): Assessment {
           basePriceHigh: priceHigh,
           frequency: offer.frequency,
           termPeriods: offer.termPeriods,
+          // s175AA permits delivery and installation on top of the ceiling,
+          // so charging them lifts the cap rather than breaching it.
+          permittedFees: offer.deliveryInstallation ?? 0,
         })
       : null
 

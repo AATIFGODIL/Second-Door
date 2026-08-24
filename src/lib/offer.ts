@@ -39,6 +39,13 @@ export const ExtractedOffer = z.object({
     .nullable()
     .describe('High end of the same estimate. Equal to cashPriceLow when the ad states a cash price.'),
 
+  deliveryInstallation: z
+    .number()
+    .nullable()
+    .describe(
+      'Delivery, installation or set-up charged on top of the instalments, in dollars. These are permitted additions to the s175AA lease ceiling, so read them off the ad rather than folding them into any other figure. Null if the ad states none or says delivery is free.',
+    ),
+
   advertisedTotal: z
     .number()
     .nullable()

@@ -486,6 +486,12 @@
   color: var(--red-text);
 }
 
+/* The way out of this, not another thing that can go wrong. It gets the
+   same green as the NILS figures rather than the warning red above it. */
+.miss-item[data-tone='good'] .miss-kind {
+  color: var(--green-text);
+}
+
 .miss-body {
   font-size: var(--size-small);
   letter-spacing: var(--track-small);

@@ -10,6 +10,7 @@ export const BLANK_OFFER: ExtractedOffer = {
   contractType: 'unknown',
   cashPriceLow: null,
   cashPriceHigh: null,
+  deliveryInstallation: null,
   advertisedTotal: null,
   fees: [],
   confidence: 'low',

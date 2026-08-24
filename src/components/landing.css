@@ -314,6 +314,21 @@
   color: var(--green-text);
 }
 
+/* ---- Standalone statement --------------------------------------------
+   One sentence, centred, given a screen of its own to sit in. */
+.statement {
+  align-self: center;
+  max-width: 22ch;
+  margin-block: var(--sp-6);
+  font-size: clamp(1.75rem, 5.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: var(--track-title);
+  font-weight: 700;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--text);
+}
+
 /* ---- Prose sections --------------------------------------------------- */
 .prose-section {
   display: flex;

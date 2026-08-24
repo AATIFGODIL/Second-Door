@@ -10,6 +10,7 @@ const base: ExtractedOffer = {
   contractType: 'consumer_lease',
   cashPriceLow: 800,
   cashPriceHigh: 800,
+  deliveryInstallation: null,
   advertisedTotal: null,
   fees: [],
   confidence: 'high',
@@ -17,6 +18,22 @@ const base: ExtractedOffer = {
 }
 
 const offer = (patch: Partial<ExtractedOffer> = {}): ExtractedOffer => ({ ...base, ...patch })
+
+describe('the lease ceiling', () => {
+  it('lifts the cap by delivery and installation charged on top', () => {
+    const plain = assess(offer())
+    const delivered = assess(offer({ deliveryInstallation: 120 }))
+    if (plain.cap?.kind === 'not_assessable' || delivered.cap?.kind === 'not_assessable') {
+      throw new Error('expected an assessable cap')
+    }
+    expect(delivered.cap?.cap).toBe((plain.cap?.cap as number) + 120)
+  })
+
+  it('ignores delivery on anything that is not a consumer lease', () => {
+    const result = assess(offer({ contractType: 'bnpl', deliveryInstallation: 120 }))
+    expect(result.cap).toBeNull()
+  })
+})
 
 describe('completeness', () => {
   it('will not compute without a payment', () => {

@@ -291,14 +291,14 @@ export function Landing({ onStart }: { onStart: () => void }) {
         </p>
       </section>
 
+      <p className="statement reveal-on-scroll">
+        Financial exclusion is not only about not having an account.
+      </p>
+
       <section className="prose-section reveal-on-scroll" aria-labelledby="who-title">
         <h2 className="section-title" id="who-title">
           Built for people who do not speak bank
         </h2>
-        <p className="section-lead">
-          Plenty of people can get a financial product and still not be able to read it well enough
-          to use it safely.
-        </p>
         <div className="persona">
           <p className="persona-name">Sarah, 34. Two kids. Casual shifts.</p>
           <p className="persona-body">
@@ -326,9 +326,20 @@ export function Landing({ onStart }: { onStart: () => void }) {
             On an $800 machine over 18 months, the most that can lawfully be charged is $1,376.
           </p>
         </Card>
-        <p className="section-note">
-          Every lease you check here is tested against its own cap.
-        </p>
+        <ul className="facts">
+          <li>
+            <strong>Our own first example broke it.</strong> We opened with $20 a week for 78
+            weeks. That is $1,560, which is $184 over the ceiling for an $800 machine.
+          </li>
+          <li>
+            <strong>So we corrected it to $17.64.</strong> A quieter headline, but a contract that
+            could actually exist.
+          </li>
+          <li>
+            <strong>Then we made it a check.</strong> Every lease you enter here is tested against
+            its own cap, and one above it gets its own result.
+          </li>
+        </ul>
       </section>
 
       <section className="prose-section reveal-on-scroll" aria-labelledby="how-title">
