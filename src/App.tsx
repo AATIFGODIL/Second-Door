@@ -182,14 +182,20 @@ export default function App() {
         </main>
 
         <footer className="colophon">
-          <p>
-            <strong>Second Door never touches money.</strong> It originates no credit, brokers no
-            loans, and processes no payments. Nothing is stored, there are no accounts, and the
-            only thing that leaves your device is an offer you explicitly choose to have read.
-          </p>
-          <p>
-            Not financial advice. The National Debt Helpline is free and independent on{' '}
-            <a href="tel:1800007007">1800 007 007</a>.
+          <div className="colophon-text">
+            <p>
+              <strong>Second Door never touches money.</strong> It originates no credit, brokers no
+              loans, and processes no payments. Nothing is stored, there are no accounts, and the
+              only thing that leaves your device is an offer you explicitly choose to have read.
+            </p>
+            <p>
+              Not financial advice. The National Debt Helpline is free and independent on{' '}
+              <a href="tel:1800007007">1800 007 007</a>.
+            </p>
+          </div>
+          <p className="colophon-byline">
+            <span className="colophon-byline-lead">A project by</span>
+            <span className="colophon-brand">WANDERERS</span>
           </p>
         </footer>
       </div>

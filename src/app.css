@@ -262,7 +262,8 @@
 .colophon {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  align-items: flex-start;
+  gap: var(--sp-5);
   width: 100%;
   padding-block: var(--sp-6) var(--sp-9);
   border-top: 1px solid var(--hairline);
@@ -270,10 +271,61 @@
   letter-spacing: var(--track-caption);
   line-height: var(--leading-caption);
   color: var(--text-secondary);
+  text-align: left;
+}
+
+.colophon-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  min-width: 0;
 }
 
 .colophon p {
   max-width: 100%;
+}
+
+/* The byline sits opposite the fine print: the disclaimers read left,
+   the signature lands right, and they only share a line once there is
+   room for both. The credit stacks over the name so the name carries
+   its own line at display size. */
+.colophon-byline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  flex-shrink: 0;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.colophon-byline-lead {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  white-space: nowrap;
+}
+
+.colophon-brand {
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', var(--font);
+  font-weight: 400;
+  font-size: var(--size-title);
+  line-height: var(--leading-title);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: #ff8c6e;
+}
+
+@media (min-width: 760px) {
+  .colophon {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .colophon-byline {
+    align-items: flex-end;
+    text-align: right;
+  }
 }
 
 .colophon strong {
