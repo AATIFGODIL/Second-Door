@@ -90,10 +90,9 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
       <header className="sd-head">
         <h2 className="sd-title">The Second Door: No Interest Loan Scheme (NILS)</h2>
         <p className="sd-intro">
-          The No Interest Loan Scheme (NILS) is a government-backed, community-run program offering 0%
-          interest loans with no fees for essential household items and services. Answer these 5 quick
-          questions to check whether you meet official NILS loan eligibility criteria. All answers are
-          evaluated directly on your device and sent nowhere.
+          NILS is a government-backed, community-run scheme. It lends at 0% with no fees, for
+          essential household items and services. Answer five questions to see if it could be open
+          to you. Your answers stay on this device.
         </p>
       </header>
 
@@ -135,8 +134,8 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
             ))}
           </ul>
           <p className="sd-outcome-caveat">
-            This is not a decision and nobody has assessed you. Providers set their own thresholds
-            and work out repayments with you. The only way to know is to ask them.
+            This is not a decision. Providers set their own rules, so the only way to know is to
+            ask them.
           </p>
         </div>
       )}
@@ -233,9 +232,7 @@ export function SecondDoor({ cashPrice }: { cashPrice: number | null }) {
         )}
 
         <p className="sd-snapshot">
-          {providers.length} of {directory.providers.length} providers within 20km of Melbourne.
-          Captured from the official directory on {directory.capturedOn} and not fetched live.
-          Providers close, move and change intake hours, so call before travelling.{' '}
+          Hours and locations change, so call before you travel.{' '}
           <a href={SOURCE.providerFinder} target="_blank" rel="noopener noreferrer">
             Check the live directory
           </a>

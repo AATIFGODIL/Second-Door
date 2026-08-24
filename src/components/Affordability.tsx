@@ -93,8 +93,7 @@ export function Affordability({
       <header className="afford-head">
         <h2 className="afford-title">Could you make the payments?</h2>
         <p className="afford-intro">
-          Being a bad deal and being unaffordable are two different problems. This one decides
-          whether you keep the goods. Rough figures are fine.
+          A deal can be fair and still cost more than you can pay. Rough figures are fine.
         </p>
       </header>
 
@@ -124,7 +123,6 @@ export function Affordability({
             placeholder="320"
             value={essentials}
             onCommit={setEssentials}
-            hint="Optional, but it makes the answer far more honest."
           />
           <FrequencySelect
             id="a-essentials-freq"
@@ -181,8 +179,7 @@ export function Affordability({
           </dl>
 
           <p className="afford-caveat">
-            This is arithmetic on the numbers you typed, not a decision about you. Nobody is
-            assessing you here and nothing you entered has left this device or been saved.
+            Nothing you type here is saved or sent anywhere.
           </p>
         </div>
       )}

@@ -22,17 +22,15 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
     <Card className="editor">
       <header className="editor-head">
         <h2 className="editor-title">Check what we read</h2>
-        <div className="editor-badges">
-          {demo ? <span className="badge" data-kind="info">Example, no offer was read</span> : null}
-          <span className="badge" data-kind={offer.confidence === 'high' ? 'ok' : 'warn'}>
-            {offer.confidence} confidence
-          </span>
-        </div>
+        {demo ? (
+          <div className="editor-badges">
+            <span className="badge" data-kind="info">Example, no offer was read</span>
+          </div>
+        ) : null}
       </header>
 
       <p className="editor-intro">
-        Nothing is calculated until these are right. Correct anything that looks wrong. Every
-        figure below updates as you type.
+        Correct anything that looks wrong. The figures below update as you type.
       </p>
 
       <div className="editor-grid">
@@ -103,8 +101,7 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
             <option value="unknown">Not sure</option>
           </select>
           <p className="field-hint">
-            Only a consumer lease is checked against the s175AA cap. If you are not sure, the ad
-            usually says lease, rent or rental.
+            Not sure? The ad usually says lease, rent or rental.
           </p>
         </div>
       </div>
@@ -112,8 +109,7 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
       <div className="estimate">
         <h3 className="estimate-title">What it costs to just buy it</h3>
         <p className="estimate-note">
-          This is an <strong>estimate</strong>, not a quote. It is the single biggest source of
-          error here, and it drives the headline. If you know the real price, put it in.
+          An estimate, not a quote. If you know the real price, put it in.
         </p>
         <div className="estimate-fields">
           <NumberField
@@ -142,9 +138,7 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
               <li key={fee}>{fee}</li>
             ))}
           </ul>
-          <p className="field-hint">
-            These are not in the figures below. They are what the ad admits to charging on top.
-          </p>
+          <p className="field-hint">These are charged on top and are not in the figures below.</p>
         </div>
       ) : null}
     </Card>

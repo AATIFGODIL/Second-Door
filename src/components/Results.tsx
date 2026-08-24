@@ -55,6 +55,43 @@ export function Results({ offer, result }: { offer: ExtractedOffer; result: Asse
         </dl>
       </Card>
 
+      <Card className="miss" as="section">
+        <h2 className="miss-title">What happens if I miss a payment?</h2>
+        <div className="miss-grid">
+          <div className="miss-item">
+            <h3 className="miss-kind">Consumer lease</h3>
+            <p className="miss-body">
+              You do not own this yet. Miss enough payments and you can lose the item, even after
+              paying most of what it cost. They must give you 30 days notice first, and they cannot
+              enter your home without a court order.
+            </p>
+          </div>
+          <div className="miss-item">
+            <h3 className="miss-kind">Credit contract</h3>
+            <p className="miss-body">
+              You own it. Nobody can take it unless you put it up as security. You get 30 days
+              notice before any action. If secured goods are sold for less than you owe, you still
+              owe the rest.
+            </p>
+          </div>
+          <div className="miss-item">
+            <h3 className="miss-kind">Buy now, pay later</h3>
+            <p className="miss-body">
+              One missed payment can cost you twice: a late fee from them and a dishonour fee from
+              your bank on the same day. Since June 2025 it can also show on your credit file.
+            </p>
+          </div>
+          <div className="miss-item">
+            <h3 className="miss-kind">All three</h3>
+            <p className="miss-body">
+              Ask before you miss it. You can ask for a hardship variation: smaller payments, a
+              pause, or more time. It is free, and asking early goes better than going quiet. Free
+              help: National Debt Helpline, 1800 007 007.
+            </p>
+          </div>
+        </div>
+      </Card>
+
       <Explain term="the annual rate">
         <p>
           It is what this credit costs you over a year, written as a percentage, so offers of
@@ -103,8 +140,7 @@ export function Results({ offer, result }: { offer: ExtractedOffer; result: Asse
             {money(cap.cap)}. This offer totals {money(total)}, which is {money(cap.excess)} above it.
           </p>
           <p className="notice-foot">
-            This is arithmetic on an estimated price, not a legal finding. AFCA and ASIC both take
-            complaints about consumer leases.
+            AFCA and ASIC take complaints about consumer leases.
           </p>
         </Card>
       ) : null}
@@ -115,21 +151,6 @@ export function Results({ offer, result }: { offer: ExtractedOffer; result: Asse
           <p className="notice-body">
             Section 175AA permits up to {money(cap.cap)} on this price and term, and this offer
             totals {money(total)}. Lawful and expensive are not the same thing.
-          </p>
-        </Card>
-      ) : null}
-
-      {offer.contractType !== 'consumer_lease' ? (
-        <Card className="notice">
-          <h2 className="notice-title">Not checked against the lease cap</h2>
-          <p className="notice-body">
-            The s175AA cap governs consumer leases. This offer is set to{' '}
-            {offer.contractType === 'bnpl'
-              ? 'buy now, pay later'
-              : offer.contractType === 'credit_contract'
-                ? 'a credit contract'
-                : 'an unknown contract type'}
-            , so that ceiling does not apply and we have not tested it against one.
           </p>
         </Card>
       ) : null}

@@ -441,3 +441,55 @@
   text-align: left;
   text-wrap: pretty;
 }
+
+/* ---- Missed payment -------------------------------------------------- */
+.miss {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.miss-title {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  letter-spacing: var(--track-heading);
+  line-height: 1.1;
+  font-weight: 700;
+  color: var(--red-text);
+}
+
+.miss-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.miss-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding-block: var(--sp-4);
+  border-top: 1px solid var(--hairline);
+}
+
+.miss-item:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.miss-item:last-child {
+  padding-bottom: 0;
+}
+
+.miss-kind {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  font-weight: 700;
+  color: var(--red-text);
+}
+
+.miss-body {
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  font-weight: 600;
+  color: var(--text);
+}

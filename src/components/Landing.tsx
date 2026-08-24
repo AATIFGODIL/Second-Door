@@ -193,8 +193,8 @@ export function Landing({ onStart }: { onStart: () => void }) {
           </Card>
         </div>
         <p className="section-note">
-          Nobody advertises NILS because it earns no margin. That is the entire reason most people
-          who qualify have never heard of it.
+          NILS earns nobody a margin, so nobody advertises it. That is why most people who qualify
+          have never heard of it.
         </p>
       </section>
 
@@ -203,36 +203,33 @@ export function Landing({ onStart }: { onStart: () => void }) {
           Built for people who do not speak bank
         </h2>
         <p className="section-lead">
-          Financial exclusion is not only about not having an account. Sometimes people have access
-          to a financial product and cannot read it well enough to use it safely.
+          Plenty of people can get a financial product and still not be able to read it well enough
+          to use it safely.
         </p>
         <div className="persona">
           <p className="persona-name">Sarah, 34. Two kids. Casual shifts.</p>
           <ul className="facts tight">
             <li>Her washing machine died on a Tuesday.</li>
-            <li>She has no savings and no credit card.</li>
+            <li>No savings, no credit card.</li>
             <li>A card was declined last year, so she stopped asking.</li>
-            <li>The shop window says $20 a week and she can do $20 a week.</li>
+            <li>The window says $20 a week, and she can do $20 a week.</li>
           </ul>
         </div>
         <p className="section-highlight">
           Nobody hides the total from Sarah. It is in the contract. It is just never the number on
-          the sign, and working it out needs a calculator, the term length, and knowing to look.
-          Second Door does that in the thirty seconds before she signs.
+          the sign. Second Door works it out in the thirty seconds before she signs.
         </p>
         <ul className="facts">
-
           <li>
             <strong>The total comes first.</strong> The biggest thing on the screen is what you
-            will actually pay, not a rate.
+            will actually pay.
           </li>
           <li>
-            <strong>Point a camera at it.</strong> No typing required, no account, no app to
-            install.
+            <strong>Point a camera at it.</strong> No typing, no account, no app.
           </li>
           <li>
             <strong>Affordability, not just price.</strong> An offer can be fair value and still
-            take everything you had spare. We show both.
+            take everything you had spare.
           </li>
         </ul>
       </section>
@@ -250,66 +247,29 @@ export function Landing({ onStart }: { onStart: () => void }) {
             On an $800 machine over 18 months, the most that can lawfully be charged is $1,376.
           </p>
         </Card>
+        <p className="section-note">
+          Every lease you check here is tested against its own cap.
+        </p>
+      </section>
+
+      <section className="prose-section reveal-on-scroll" aria-labelledby="how-title">
+        <h2 className="section-title" id="how-title">
+          How this works
+        </h2>
         <ul className="facts">
           <li>
-            <strong>Our first example was illegal.</strong> We started with $20 a week over 78
-            weeks, which totals $1,560. That is $184 above the cap.
+            <strong>The AI only reads.</strong> It lifts the numbers off your photo. Every total
+            and rate is worked out in tested code.
           </li>
           <li>
-            <strong>We corrected it to $17.64.</strong> The weaker headline is the one that
-            describes a contract that can actually exist.
+            <strong>Nothing is stored.</strong> No account, no database, no tracking.
           </li>
           <li>
-            <strong>Then we made it a feature.</strong> Every lease is now checked against its own
-            cap, and an offer above it gets a third result state.
-          </li>
-        </ul>
-        <p className="section-note">
-          We always say <em>appears to exceed</em>, never <em>is illegal</em>. Two guards make sure
-          of it: the cap is computed against the top of the price range, and part months round up.
-          Both resolve in the provider's favour.
-        </p>
-      </section>
-
-      <section className="prose-section reveal-on-scroll" aria-labelledby="maths-title">
-        <h2 className="section-title" id="maths-title">
-          Tested math, not AI guesses
-        </h2>
-        <p className="section-lead">
-          AI reads the contract image, but all figures come from exact code.
-        </p>
-        <Card className="formula-card">
-          <code className="formula">PV = PMT × (1 − (1 + i)⁻ⁿ) / i</code>
-          <p className="formula-note">
-            Standard present-value formula used to calculate exact annual interest rates.
-          </p>
-        </Card>
-        <ul className="facts">
-          <li>
-            <strong>Exact calculations.</strong> Rates and totals are computed using deterministic financial algorithms for precise results every time.
-          </li>
-          <li>
-            <strong>Clear edge cases.</strong> Invalid terms or zero-interest offers are handled gracefully with plain explanations.
+            <strong>It never touches your money.</strong> No credit, no payments, no balance. The
+            only thing that leaves your device is the offer you choose to have read.
           </li>
         </ul>
       </section>
-
-      <section className="prose-section reveal-on-scroll" aria-labelledby="money-title">
-        <h2 className="section-title" id="money-title">
-          It never touches your money
-        </h2>
-        <ul className="facts tight">
-          <li>No credit is originated and no loan is brokered.</li>
-          <li>No payment is processed and no balance is held.</li>
-          <li>No accounts, no database, no analytics, nothing stored.</li>
-          <li>The only thing that leaves your device is an offer you choose to have read.</li>
-        </ul>
-        <p className="section-note">
-          This is a design decision, not a missing feature. It keeps the project outside credit
-          licensing, and it means there is nothing here that can mis-sell anyone anything.
-        </p>
-      </section>
-
 
       <section className="closer reveal-on-scroll">
         <h2 className="closer-title">Show us an offer</h2>
