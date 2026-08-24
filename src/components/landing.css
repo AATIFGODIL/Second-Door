@@ -44,6 +44,117 @@
   color: var(--text);
 }
 
+/* ---- The promise -----------------------------------------------------
+   Three flat statements that take the screen for a moment. The section is
+   three viewport-height beats tall; the panel sticks across all of them,
+   blurring the page behind it while each line types itself in. */
+.promise {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-block: var(--sp-6);
+}
+
+.promise-track,
+.promise-pin {
+  grid-area: 1 / 1;
+}
+
+.promise-beat {
+  height: 85vh;
+}
+
+/* Dead scroll after the last beat, so the third line gets a moment on its
+   own before the section hands the screen back. */
+.promise-track {
+  padding-bottom: 55vh;
+}
+
+.promise-pin {
+  position: sticky;
+  top: 0;
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-2);
+  height: 100vh;
+  padding-top: var(--masthead-h, 4rem);
+}
+
+/* Full-bleed rather than inset to the content column: the hold only works
+   if the whole screen goes soft, not the middle of it. Fixed, so it does
+   not inherit the shell's max width, and switched off with visibility so
+   the blur stops compositing once the section is behind you. */
+.promise-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  visibility: hidden;
+  opacity: 0;
+  background: color-mix(in oklab, var(--bg) 62%, transparent);
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  transition:
+    opacity var(--response-slow) var(--ease-out),
+    visibility 0s linear var(--response-slow);
+}
+
+.promise[data-held] .promise-scrim {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s, 0s;
+}
+
+/* Above the scrim, and lifted off it: the shadow is what sells the text as
+   sitting in front of the page rather than printed on it. */
+.promise-line {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(1.9rem, 6.5vw, 3.25rem);
+  line-height: 1.12;
+  letter-spacing: var(--track-title);
+  font-weight: 700;
+  color: var(--text);
+  text-shadow: 0 6px 24px color-mix(in oklab, var(--bg) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The clip lives on the inner span, never on the beat elements the
+     observer watches: a clipped target reports an intersection ratio of
+     zero and would never be told to reveal itself. */
+  .promise-line > span {
+    display: inline-block;
+    clip-path: inset(0 100% 0 0);
+    transform: translateY(0.14em);
+    transition:
+      clip-path 620ms steps(18, end),
+      transform var(--response-slow) var(--ease-out);
+  }
+
+  .promise-line[data-shown] > span {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+/* No hold and no wipe: the lines are simply there, and the section takes
+   only the height it needs. */
+@media (prefers-reduced-motion: reduce) {
+  .promise-beat {
+    height: 0;
+  }
+
+  .promise-pin {
+    position: static;
+    height: auto;
+    padding-top: 0;
+  }
+
+  .promise-scrim {
+    display: none;
+  }
+}
+
 /* ---- The pinned arithmetic -------------------------------------------
    One figure stays put while the reasoning scrolls past it. This is the
    only choreographed motion on the page; everything else is a fade. */

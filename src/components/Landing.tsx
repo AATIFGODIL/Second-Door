@@ -118,6 +118,97 @@ function useActiveStep(count: number) {
   return { active, refs }
 }
 
+const PROMISES = [
+  'No account creation.',
+  'No tracking.',
+  'Your money details are never saved.',
+]
+
+/**
+ * Hold the three promises on screen and type them in, one per beat of scroll.
+ *
+ * The beats are empty spacers stacked behind the pinned panel: whichever one
+ * is crossing the middle of the viewport decides how many lines are typed.
+ * Nothing is latched, so the lines type and untype with the scroll, and the
+ * count resets once the section is behind you: arriving here a second time
+ * plays the whole thing again rather than showing three finished lines.
+ */
+function usePromiseSteps(count: number) {
+  const [shown, setShown] = useState(-1)
+  const [held, setHeld] = useState(false)
+  const refs = useRef<(HTMLElement | null)[]>([])
+  const section = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const nodes = refs.current.filter((node): node is HTMLElement => node !== null)
+    if (nodes.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue
+          const index = nodes.indexOf(entry.target as HTMLElement)
+          if (index !== -1) setShown(index)
+        }
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
+    )
+
+    for (const node of nodes) observer.observe(node)
+    return () => observer.disconnect()
+  }, [count])
+
+  // The scrim is only alive while the section owns the screen. Outside that
+  // band it is switched off entirely rather than left at zero opacity: a
+  // live backdrop-filter over the whole viewport costs a composite on every
+  // frame, whether or not you can see it.
+  useEffect(() => {
+    const el = section.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHeld(entry.isIntersecting)
+        // Rewind on the way out, so the next arrival types from nothing.
+        if (!entry.isIntersecting) setShown(-1)
+      },
+      { rootMargin: '-30% 0px -30% 0px', threshold: 0 },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return { shown, held, refs, section }
+}
+
+function Promise() {
+  const { shown, held, refs, section } = usePromiseSteps(PROMISES.length)
+
+  return (
+    <section className="promise" ref={section} data-held={held || undefined}>
+      <div className="promise-track" aria-hidden="true">
+        {PROMISES.map((line, index) => (
+          <div
+            key={line}
+            className="promise-beat"
+            ref={(node) => {
+              refs.current[index] = node
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="promise-pin">
+        <div className="promise-scrim" aria-hidden="true" />
+        {PROMISES.map((line, index) => (
+          <p className="promise-line" key={line} data-shown={index <= shown || undefined}>
+            <span>{line}</span>
+          </p>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export function Landing({ onStart }: { onStart: () => void }) {
   useRevealOnScroll()
   const { active, refs } = useActiveStep(STEPS.length)
@@ -125,6 +216,8 @@ export function Landing({ onStart }: { onStart: () => void }) {
 
   return (
     <div className="landing" id="how">
+      <Promise />
+
       <section className="stack" aria-labelledby="stack-title">
         <h2 className="section-title" id="stack-title">
           Do the multiplication
