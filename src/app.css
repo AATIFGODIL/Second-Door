@@ -499,3 +499,32 @@
   font-weight: 600;
   color: var(--text);
 }
+
+/* The number is the way out, so it gets its own line and a real tap target
+   rather than sitting at the end of a sentence. On a phone this is one tap
+   to a free financial counsellor. */
+.miss-help {
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--hairline);
+  font-size: var(--size-small);
+  letter-spacing: var(--track-small);
+  line-height: var(--leading-small);
+  color: var(--text-secondary);
+}
+
+.miss-help-lead {
+  display: block;
+  margin-bottom: var(--sp-1);
+  font-weight: 700;
+  color: var(--green-text);
+}
+
+.miss-help a {
+  color: var(--blue-text);
+  font-weight: 600;
+  text-underline-offset: 2px;
+}
+
+.miss-help a:active {
+  opacity: 0.55;
+}

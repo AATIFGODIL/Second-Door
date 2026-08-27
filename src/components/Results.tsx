@@ -88,11 +88,17 @@ export function Results({ offer, result }: { offer: ExtractedOffer; result: Asse
             <h3 className="miss-kind">Ask before you miss it</h3>
             <p className="miss-body">
               You can ask for a hardship variation: smaller payments, a pause, or more time. It is
-              free, and asking early goes better than going quiet. Free help: National Debt
-              Helpline, 1800 007 007.
+              free, and asking early goes better than going quiet.
             </p>
           </div>
         </div>
+
+        <p className="miss-help">
+          <span className="miss-help-lead">Need help?</span>
+          Call the National Debt Helpline on <a href="tel:1800007007">1800 007 007</a>. It is
+          free, independent and confidential, and they talk to people about these contracts
+          every day.
+        </p>
       </Card>
 
       <Explain term="the annual rate">
