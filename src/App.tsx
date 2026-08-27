@@ -23,6 +23,7 @@ export default function App() {
   const route = useRoute()
   const [offer, setOffer] = useState<ExtractedOffer>(BLANK_OFFER)
   const [demo, setDemo] = useState(false)
+  const [picture, setPicture] = useState<string | null>(null)
   const [theme, setTheme] = useState<'light' | 'dark'>(getInitialTheme)
 
   useEffect(() => {
@@ -68,9 +69,18 @@ export default function App() {
     }
   }, [route, hasOffer])
 
-  function start(next: ExtractedOffer, isDemo: boolean) {
+  /** Object URLs are the browser's to free, so release the old one. */
+  function showPicture(next: string | null) {
+    setPicture((old) => {
+      if (old?.startsWith('blob:')) URL.revokeObjectURL(old)
+      return next
+    })
+  }
+
+  function start(next: ExtractedOffer, isDemo: boolean, nextPicture?: string) {
     setOffer(next)
     setDemo(isDemo)
+    showPicture(nextPicture ?? null)
     navigate('/offer')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -78,6 +88,7 @@ export default function App() {
   function restart() {
     setOffer(BLANK_OFFER)
     setDemo(false)
+    showPicture(null)
     navigate(HOME)
     window.scrollTo({ top: 0, behavior: 'auto' })
   }
@@ -157,7 +168,7 @@ export default function App() {
               </p>
 
               <Intake
-                onRead={(next, _source, demo) => start(next, demo)}
+                onRead={(next, _source, demo, pic) => start(next, demo, pic)}
                 onManual={() => start(BLANK_OFFER, false)}
               />
 
@@ -165,7 +176,7 @@ export default function App() {
             </>
           ) : (
             <>
-              <OfferEditor offer={offer} onChange={setOffer} demo={demo} />
+              <OfferEditor offer={offer} onChange={setOffer} demo={demo} picture={picture} />
 
               {result.computable ? (
                 <Results offer={offer} result={result} />

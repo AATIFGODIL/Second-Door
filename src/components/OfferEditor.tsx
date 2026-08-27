@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Card } from './ui/Card'
 import { NumberField } from './ui/NumberField'
 import type { ExtractedOffer } from '../lib/offer'
@@ -9,9 +10,13 @@ type Props = {
   onChange: (offer: ExtractedOffer) => void
   /** The offer came from the bundled examples, not from a live read. */
   demo: boolean
+  /** The picture this was read from. Held in the browser, never stored. */
+  picture?: string | null
 }
 
-export function OfferEditor({ offer, onChange, demo }: Props) {
+export function OfferEditor({ offer, onChange, demo, picture }: Props) {
+  const shot = useRef<HTMLDialogElement>(null)
+
   const set = <K extends keyof ExtractedOffer>(key: K, value: ExtractedOffer[K]) =>
     onChange({ ...offer, [key]: value })
 
@@ -20,6 +25,53 @@ export function OfferEditor({ offer, onChange, demo }: Props) {
 
   return (
     <Card className="editor">
+      {picture ? (
+        <>
+          <figure className="editor-shot">
+            {/* The image is decorative: the fields below are the same offer,
+                in a form a screen reader can actually read. */}
+            <button
+              type="button"
+              className="editor-shot-open"
+              aria-label="Open the full picture of the offer you showed us"
+              onClick={() => shot.current?.showModal()}
+            >
+              <img src={picture} alt="" />
+            </button>
+          </figure>
+
+          {/* <dialog> so Escape, the focus trap and modal semantics are free. */}
+          <dialog
+            className="shot-modal"
+            ref={shot}
+            aria-label="The offer you showed us"
+            onClick={(event) => {
+              if (event.target === event.currentTarget) shot.current?.close()
+            }}
+          >
+            <div className="shot-frame">
+              <img src={picture} alt="" />
+              <button
+                type="button"
+                className="shot-close"
+                aria-label="Close the picture"
+                onClick={() => shot.current?.close()}
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+                  <path
+                    d="M6 6l12 12M18 6L6 18"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </dialog>
+        </>
+      ) : null}
+
       <header className="editor-head">
         <h2 className="editor-title">Check what we read</h2>
         {demo ? (

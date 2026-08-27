@@ -7,7 +7,13 @@ import './ui/controls.css'
 import './intake.css'
 
 type Props = {
-  onRead: (offer: ExtractedOffer, source: 'read' | 'example' | 'manual', demo: boolean) => void
+  onRead: (
+    offer: ExtractedOffer,
+    source: 'read' | 'example' | 'manual',
+    demo: boolean,
+    /** Object URL for an uploaded photo, or the example's picture. */
+    picture?: string,
+  ) => void
   onManual: () => void
 }
 
@@ -28,7 +34,10 @@ export function Intake({ onRead, onManual }: Props) {
 
     setBusy(false)
     if (result.ok) {
-      onRead(result.offer, 'read', result.demo)
+      // Held in the browser only, so the photo can be shown beside what we
+      // read off it. Nothing is uploaded here that was not already sent.
+      const picture = input.file ? URL.createObjectURL(input.file) : undefined
+      onRead(result.offer, 'read', result.demo, picture)
     } else {
       setError(result.message)
     }
@@ -136,7 +145,7 @@ export function Intake({ onRead, onManual }: Props) {
               type="button"
               className="example"
               disabled={busy}
-              onClick={() => onRead(example.offer, 'example', false)}
+              onClick={() => onRead(example.offer, 'example', false, example.image)}
             >
               <span className="example-label">{example.label}</span>
               <span className="example-teaches">{example.teaches}</span>

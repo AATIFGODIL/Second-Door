@@ -8,12 +8,15 @@ export type Example = {
   teaches: string
   /** The ad as the user would paste it. */
   text: string
+  /** A picture of the ad, shown beside what we read off it. */
+  image: string
   offer: ExtractedOffer
 }
 
 export const EXAMPLES: Example[] = [
   {
     id: 'washing-machine',
+    image: '/examples/washing-machine.png',
     label: 'Washing machine',
     teaches: '$17.64 a week for 78 weeks ($1,376 total vs $800 cash price)',
     text: `EASYHOME RENTALS. NO CREDIT CHECKS!
@@ -39,6 +42,7 @@ Dishonour fee $9.90 applies to missed payments.`,
   },
   {
     id: 'laptop',
+    image: '/examples/laptop.png',
     label: 'Laptop',
     teaches: '$32 a week for 104 weeks ($3,328 total vs $1,050 cash price)',
     text: `RENT-2-OWN TECH
@@ -63,6 +67,7 @@ Establishment fee $99. Late payment fee $12.`,
   },
   {
     id: 'phone-bnpl',
+    image: '/examples/phone-bnpl.png',
     label: 'Phone on buy-now-pay-later',
     teaches: '$224.75 a fortnight for 4 payments ($899 total at 0% interest)',
     text: `Pay in 4 with SplitPay
